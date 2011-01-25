@@ -1,0 +1,25 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="quotationtool">
+
+  <grant
+      permission="quotationtool.figures.AddFigure"
+      role="quotationtool.Member"
+      />
+
+  <grant
+      permission="quotationtool.figures.AddFigure"
+      role="quotationtool.Editor"
+      />
+
+  <grant
+      permission="quotationtool.figures.EditFigure"
+      role="quotationtool.Editor"
+      />
+
+  <grant
+      permission="quotationtool.figures.EditFigure"
+      role="quotationtool.Creator"
+      />
+
+</configure>

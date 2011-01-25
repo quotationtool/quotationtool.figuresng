@@ -1,0 +1,43 @@
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:i18n='http://namespaces.zope.org/i18n'
+    i18n_domain="quotationtool">
+
+  <include file="dependencies.zcml"/>
+
+  <include file="permissions.zcml"/>
+  <include file="roles.zcml"/>
+  
+  <utility
+      component=".source.QuotationSourceTypesVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="quotationtool.figuresng.SourceTypes"
+      />
+  
+  <utility
+      component=".source.plainTextQuotationFactory"
+      name="plaintext"
+      provides=".interfaces.IQuotationSourceFactory"
+      permission="zope.Public"
+      />
+
+  <utility
+      component=".source.restQuotationFactory"
+      name="rest"
+      provides=".interfaces.IQuotationSourceFactory"
+      permission="zope.Public"
+      />
+
+  <!-- IFigure, this is for inheritence by more specific types  -->
+
+  <subscriber
+      handler=".figure.createRelationIndex"
+      />
+
+  <!--include package=".browser"/-->
+
+  <!-- include figure type configs here -->
+
+  <include file="example.zcml"/>
+
+</configure>
