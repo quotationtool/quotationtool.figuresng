@@ -31,9 +31,10 @@ def setUpOnlySome(test):
         IVocabularyFactory, 
         'quotationtool.figuresng.SourceTypes')
     import zope.security, zope.app.schema
-    XMLConfig('meta.zcml', zope.component)
-    XMLConfig('meta.zcml', zope.security)
-    XMLConfig('configure.zcml', zope.app.schema)
+    XMLConfig('meta.zcml', zope.component)()
+    XMLConfig('meta.zcml', zope.security)()
+    XMLConfig('configure.zcml', zope.security)()
+    XMLConfig('configure.zcml', zope.app.schema)()
 
 
 class SourceTests(PlacelessSetup, unittest.TestCase):
@@ -64,7 +65,7 @@ class SourceTests(PlacelessSetup, unittest.TestCase):
         # but it should be OK for quotationtool.renderer.SourceTypes
         rfield = zope.schema.Choice(
             title = u"source type",
-            vocabulary = 'quotationtool.renderer.sourcetypes')
+            vocabulary = 'quotationtool.renderer.SourceTypes')
         self.assertTrue(rfield.validate('other_text_syntax') is None)
 
     def test_PlainText(self):
