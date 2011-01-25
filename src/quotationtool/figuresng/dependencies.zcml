@@ -8,6 +8,7 @@
   <include package="zope.app.schema"/>
   <include package="zope.component"/>
   <include package="zope.site"/>
+  <include package="zope.security"/>
   
   <include package="quotationtool.security"/>
   <include package="quotationtool.renderer"/>

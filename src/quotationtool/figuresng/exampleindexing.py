@@ -145,9 +145,10 @@ def createExampleCatalog(event):
 
     sm = event.object.getSiteManager()
 
-    extent = zc.catalog.extentcatalog.FilterExtent(filter)#, family = BTrees.family64)
+    from zc.catalog.extentcatalog import FilterExtent, Catalog
+    extent = FilterExtent(filter)#, family = BTrees.family64)
 
-    sm['default']['examples_search_catalog'] = cat = zc.catalog.extentcatalog.Catalog(extent)
+    sm['default']['examples_search_catalog'] = cat = Catalog(extent)
 
     createReferenceIndices(cat)
 
