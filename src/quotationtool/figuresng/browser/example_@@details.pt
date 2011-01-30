@@ -1,0 +1,72 @@
+<div i18n:domain="quotationtool">
+  <table class="schema-view">
+    <tr>
+      <td class="schema-col"> 
+        <tal:block define="schema modules/quotationtool/figuresng/iexample/IExample/quid">
+	  <span metal:define-macro="schema_info" class="schema-info">
+	    <span class="title" tal:content="schema/title | nothing"
+		  >Example</span
+		  ><span class="required" tal:condition="schema/required | nothing"
+		  >*</span
+		  ><tal:block condition="schema/description | nothing"
+		  ><br
+		  /><span class="description" tal:content="schema/description"
+		  >Description</span
+		  ></tal:block>
+	  </span>  
+	</tal:block>
+      </td>
+      <td tal:content="context/quid | nothing">...</td>
+    </tr>
+    <tr>
+      <td class="schema-col" 
+	  tal:define="schema modules/quotationtool/figuresng/iexample/IExample/pro_quo">
+	<metal:block use-macro="template/macros/schema_info">
+	  Denotation / Meaning
+	</metal:block>
+      </td>
+      <td tal:content="context/pro_quo | nothing">...</td>
+    </tr>
+    <tr>
+      <td class="schema-col" 
+	  tal:define="schema modules/quotationtool/figuresng/iexample/IExample/marker">
+	<metal:block use-macro="template/macros/schema_info">
+	  Marker
+	</metal:block>
+      </td>
+      <td tal:content="context/marker | nothing">...</td>
+    </tr>
+    <tr>
+      <td class="schema-col" 
+	  tal:define="schema modules/quotationtool/figuresng/iexample/IExample/quotation">
+	<metal:block use-macro="template/macros/schema_info">
+	  Quotation
+	</metal:block>
+      </td>
+      <td tal:content="structure view/renderQuotation">...</td>
+    </tr>
+    <tr>
+      <td class="schema-col" 
+	  tal:define="schema modules/quotationtool/figuresng/iexample/IExample/reference">
+	<metal:block use-macro="template/macros/schema_info">
+	  Cited from
+	</metal:block>
+      </td>
+      <td>
+	<a class="content" href=""
+	    tal:content="structure context/reference/@@details"
+	    tal:attributes="href string:${context/reference/@@absolute_url}/@@examples.html"
+	    >...</a>
+      </td>
+    </tr>
+    <tr>
+      <td class="schema-col" 
+	  tal:define="schema modules/quotationtool/figuresng/iexample/IExample/position">
+	<metal:block use-macro="template/macros/schema_info">
+	  Page
+	</metal:block>
+      </td>
+      <td tal:content="context/position | nothing">...</td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,85 @@
+<configure
+    xmlns:zope="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quotationtool">
+
+  <!-- navigation -->
+
+  <z3c:siteMenuItem
+      for="*"
+      title="[examplecontainer-navigation] Examples"
+      name="examplecontainer"
+      class=".example_nav.ExampleContainerMainNavItem"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager="quotationtool.skin.interfaces.IMainNav"
+      viewName="examples/"
+      subMenuProviderName="examplecontainersubnav"
+      weight="20"
+      />
+  <!-- adaptation: context, request, view, menu, item. See
+       z3c.menu.ready2go.checker for more info. -->
+  <zope:adapter
+      factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   zope.interface.Interface
+	   quotationtool.skin.interfaces.IMainNav
+	   .example_nav.IExampleContainerMainNavItem"
+      provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
+      />
+  <zope:adapter
+      factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
+      for="..iexample.IExample
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   zope.interface.Interface
+	   quotationtool.skin.interfaces.IMainNav
+	   .example_nav.IExampleContainerMainNavItem"
+      provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
+      />
+
+
+  <browser:viewletManager
+      name="examplecontainersubnav"
+      class=".example_nav.ExampleContainerSubNav"
+      provides=".example_nav.IExampleContainerSubNav"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+
+  <z3c:siteMenuItem
+      for="*"
+      title="[examplecontainer-navigation] Examples"
+      name="examplecontainer-examples"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager=".example_nav.IExampleContainerSubNav"
+      viewName="examples/@@index.html"
+      weight="10"
+      />      
+  
+  <z3c:siteMenuItem
+      for="*"
+      title="[examplecontainer-about-navigation] About"
+      name="examplecontainer-about"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager=".example_nav.IExampleContainerSubNav"
+      viewName="examples/@@about.html"
+      weight="110"
+      />
+
+  <z3c:siteMenuItem
+      for="*"
+      title="[examplecontainer-search-navigation] Search"
+      name="examplecontainer-search"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager=".example_nav.IExampleContainerSubNav"
+      viewName="examples/@@search.html"
+      weight="120"
+      />
+
+  
+</configure>

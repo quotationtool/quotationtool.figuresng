@@ -1,0 +1,85 @@
+<div i18n:domain="quotationtool">
+  
+  <h1 tal:content="view/label1 | default"
+      >Examples in Reference</h1>
+
+  <div class="content-item-details"
+       tal:content="structure context/@@details"
+       >Author: Title ...</div>
+
+  <p tal:content="structure view/description"/>
+
+  <div>
+
+    <table class="container-listing">
+      <thead>
+	<tr class="head">
+	  <td>
+	    <span 
+		tal:content="modules/quotationtool/figuresng/iexample/IExample/position/title"
+		>Page</span>
+	  </td>
+	  <td>
+	    <span
+		tal:content="modules/quotationtool/figuresng/iexample/IExample/quid/title"
+		>Example</span>
+	  </td>
+	  <td>
+	    <span 
+		tal:content="modules/quotationtool/figuresng/iexample/IExample/pro_quo/title"
+		>Denotation/Meaning</span>
+	  </td>
+	  <td>
+	    <span
+		tal:content="modules/quotationtool/figuresng/iexample/IExample/marker/title"
+		>Marker</span>
+	  </td>
+	  <td>
+	    <span
+		tal:content="modules/quotationtool/figuresng/iexample/IExample/quotation/title"
+		>Quotation</span>
+	  </td>
+	</tr>
+      </thead>
+      <tbody>
+      <tal:block repeat="example view/examples">
+	<tr tal:condition="repeat/example/odd" class="odd">
+	  <td tal:content="example/position">42</td>
+	  <td>
+	    <a href="/examples/1/"
+	       tal:content="example/quid"
+	       tal:attributes="href string:${view/figurecontainerURL}/${example/__name__}/" 
+	       >Tulpe</a>
+	  </td>
+	  <td tal:content="example/pro_quo">Das Schöne</td>
+	  <td tal:content="example/marker">z.B.</td>
+	  <td tal:content="structure python: view.renderQuotation(example)"
+	      >Example text ...</td>
+	</tr>
+	<tr tal:condition="repeat/example/even" class="even">
+	  <td tal:content="example/position">42</td>
+	  <td>
+	    <a href="/examples/1/"
+	       tal:content="example/quid"
+	       tal:attributes="href string:${view/figurecontainerURL}/${example/__name__}/" 
+	       >Tulpe</a>
+	  </td>
+	  <td tal:content="example/pro_quo">Das Schöne</td>
+	  <td tal:content="example/marker">z.B.</td>
+	  <td tal:content="structure  python: view.renderQuotation(example)"
+	      >Example text ...</td>
+	</tr>
+      </tal:block>
+      </tbody>
+    </table>
+
+    <div class="add-content-options"
+	 tal:condition="view/add_example_option">
+      <a href="../addExample.html"
+	 tal:attributes="href string:${context/@@absolute_url}/@@addExample.html"
+	 i18n:translate="add-example">Add a new Example</a>
+    </div>
+
+  </div>
+
+</div>

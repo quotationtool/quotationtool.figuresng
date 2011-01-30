@@ -34,10 +34,10 @@
       handler=".figure.createRelationIndex"
       />
 
-  <!--include package=".browser"/-->
-
   <!-- include figure type configs here -->
-
   <include file="example.zcml"/>
+
+
+  <include package=".browser"/>
 
 </configure>

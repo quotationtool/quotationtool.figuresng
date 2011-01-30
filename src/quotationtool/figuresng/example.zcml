@@ -71,6 +71,4 @@
   
   <subscriber handler=".exampleindexing.createExampleCatalog"/>
 
-  <!--include package=".browser" file="example.zcml"/-->
-
 </configure>

@@ -1,0 +1,9 @@
+<metal:block use-macro="macro:search-result-page">
+
+  <metal:block fill-slot="result-rows">
+  <div i18n:domain="quotatiotool">
+    <metal:block use-macro="macro:example-list"/>
+  </div>
+  </metal:block>
+
+</metal:block>

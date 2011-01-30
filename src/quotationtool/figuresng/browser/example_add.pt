@@ -1,0 +1,14 @@
+<div i18n:domain="quotationtool">
+  <metal:block use-macro="macro:form">
+
+    <metal:block fill-slot="label">
+      <h1 i18n:translate="add-example">Add a new Example</h1>
+    </metal:block>
+
+    <metal:block fill-slot="extra-info">
+      <div class="content-item-details" 
+	   tal:content="structure context/@@details">...</div>
+    </metal:block>
+
+  </metal:block>
+</div>

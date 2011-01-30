@@ -1,0 +1,63 @@
+<configure
+    xmlns:zope="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quotationtool">
+
+  <!--z3c:contextMenuItem
+      for="..iexample.IExampleContainer"
+      title="[examplecontainer-tabs] Examples"
+      name="examplecontainer"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager="quotationtool.skin.interfaces.IItemTabs"
+      viewName="@@index.html"
+      weight="100"
+      />
+
+  <z3c:contextMenuItem
+      for="..iexample.IExampleContainer"
+      title="[examplecontainer-about-tabs] About"
+      name="examplecontainer-about"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager="quotationtool.skin.interfaces.IItemTabs"
+      viewName="@@about.html"
+      weight="110"
+      /-->
+
+  <z3c:contextMenuItem
+      for="..iexample.IExampleContainer"
+      title="[examplecontainer-search-tabs] Search"
+      name="examplecontainer-search"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager="quotationtool.skin.interfaces.IItemTabs"
+      viewName="@@search.html"
+      weight="120"
+      />
+
+
+  <z3c:contextMenuItem
+      for="..iexample.IExample"
+      title="[example-tabs] Example"
+      name="example"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager="quotationtool.skin.interfaces.IItemTabs"
+      viewName="@@index.html"
+      weight="200"
+      />
+
+  <z3c:contextMenuItem
+      for="..iexample.IExample"
+      title="[example-edit-tabs] Edit"
+      name="example-edit"
+      permission="quotationtool.figures.EditFigure"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager="quotationtool.skin.interfaces.IItemTabs"
+      viewName="@@edit.html"
+      weight="210"
+      />
+
+</configure>

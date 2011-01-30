@@ -1,0 +1,182 @@
+<configure
+    xmlns='http://namespaces.zope.org/browser'
+    xmlns:z3c='http://namespaces.zope.org/z3c'
+    xmlns:zope='http://namespaces.zope.org/zope'
+    xmlns:i18n='http://namespaces.zope.org/i18n'
+    i18n_domain="quotationtool">
+
+  <!-- IExampleContainer -->
+
+  <!-- browser pagelets for -->
+
+  <z3c:pagelet
+      for="..iexample.IExampleContainer"
+      name="index.html"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      class=".examplecontainer.Container"
+      />
+  <z3c:template
+      for=".examplecontainer.Container"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="examplecontainer_container.pt"
+      />
+  <z3c:pagelet
+      for="..iexample.IExampleContainer"
+      name="about.html"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      class=".examplecontainer.FrontPage"
+      />
+  <z3c:template
+      for=".examplecontainer.FrontPage"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="examplecontainer_frontpage.pt"
+      />
+  <z3c:macro
+      name="example-list"
+      macro="example-list"
+      template="examplecontainer_container.pt"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+
+  <zope:view
+      for="..iexample.IExampleContainer"
+      name="label"
+      permission="zope.View"
+      factory=".examplecontainer.LabelView"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+
+  <!-- searching -->
+
+  <z3c:pagelet
+      for="..iexample.IExampleContainer"
+      name="searchResultPage.html"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      class=".examplecontainer.SearchResultPage"
+      />
+  <z3c:template
+      for=".examplecontainer.SearchResultPage"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="examplecontainer_searchresultpage.pt"
+      />
+
+  <z3c:pagelet
+      for="..iexample.IExampleContainer"
+      name="search.html"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      class=".examplecontainer.SearchForm"
+      />
+
+  <!-- search target option -->
+  <viewlet
+      name="examples"
+      for="*"
+      permission="zope.View"
+      manager="quotationtool.search.browser.search.SearchTargetManager"
+      class=".examplecontainer.ExampleSearchTargetViewlet"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      weight="10"
+      searchFormURL="examples/@@search.html"
+      />
+
+
+  <!-- IExample -->
+
+  <z3c:pagelet
+      name="index.html"
+      for="..iexample.IExample"
+      class=".example.ExampleFrontpage"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+  <z3c:template
+      for=".example.ExampleFrontpage"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="example_frontpage.pt"
+      />
+
+  <z3c:pagelet
+      name="edit.html"
+      for="..iexample.IExample"
+      class=".example.ExampleEditForm"
+      permission="quotationtool.figures.EditFigure"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+
+  <zope:view
+      for="..iexample.IExample"
+      name="details"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      factory=".example.DetailsView"
+      />
+  <zope:view
+      for="..iexample.IExample"
+      name="list"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      factory=".example.ListView"
+      />
+  <zope:view
+      for="..iexample.IExample"
+      name="label"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      factory=".example.LabelView"
+      />
+
+
+  
+  <!-- view registered for IReference -->
+
+  <z3c:pagelet
+      for="..interfaces.IReference"
+      name="addExample.html"
+      class=".example.AddExampleInReferenceContext"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="quotationtool.figures.AddFigure"
+      />
+  <z3c:template
+      for=".example.AddExampleInReferenceContext"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="example_add.pt"
+      />
+
+  <z3c:pagelet
+      for="..interfaces.IReference"
+      name="examples.html"
+      class=".example.ExamplesInReferenceView"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+  <z3c:template
+      for=".example.ExamplesInReferenceView"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="examples_in_reference.pt"
+      />
+  
+  <!-- view registered for IUniformTitle -->
+
+  <!--z3c:pagelet
+      for="quotationtool.referatory.interfaces.IUniformTitle"
+      name="examples.html"
+      class=".example.ExamplesInUniformTitleView"
+      label2="In Uniform Title"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+  <z3c:template
+      for=".example.ExamplesInUniformTitleView"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="examples_in_reference.pt"
+      /-->
+
+
+  <include file="example_nav.zcml"/>
+  <include file="example_tabs.zcml"/>
+
+</configure>
