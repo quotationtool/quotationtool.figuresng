@@ -4,41 +4,8 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="quotationtool">
 
+
   <!--z3c:contextMenuItem
-      for="..iexample.IExampleContainer"
-      title="[examplecontainer-tabs] Examples"
-      name="examplecontainer"
-      permission="zope.View"
-      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      manager="quotationtool.skin.interfaces.IItemTabs"
-      viewName="@@index.html"
-      weight="100"
-      />
-
-  <z3c:contextMenuItem
-      for="..iexample.IExampleContainer"
-      title="[examplecontainer-about-tabs] About"
-      name="examplecontainer-about"
-      permission="zope.View"
-      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      manager="quotationtool.skin.interfaces.IItemTabs"
-      viewName="@@about.html"
-      weight="110"
-      /-->
-
-  <z3c:contextMenuItem
-      for="..iexample.IExampleContainer"
-      title="[examplecontainer-search-tabs] Search"
-      name="examplecontainer-search"
-      permission="zope.View"
-      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      manager="quotationtool.skin.interfaces.IItemTabs"
-      viewName="@@search.html"
-      weight="120"
-      />
-
-
-  <z3c:contextMenuItem
       for="..iexample.IExample"
       title="[example-tabs] Example"
       name="example"
@@ -47,17 +14,48 @@
       manager="quotationtool.skin.interfaces.IItemTabs"
       viewName="@@index.html"
       weight="200"
-      />
+      /-->
 
   <z3c:contextMenuItem
       for="..iexample.IExample"
       title="[example-edit-tabs] Edit"
       name="example-edit"
-      permission="quotationtool.figures.EditFigure"
+      permission="zope.View"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       manager="quotationtool.skin.interfaces.IItemTabs"
       viewName="@@edit.html"
       weight="210"
       />
+
+  <z3c:contextMenuItem
+      for="quotationtool.bibliography.interfaces.IEntry"
+      title="[entry-examples] Examples"
+      name="entry-examples"
+      class=".example_tabs.EntryTab"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      manager="quotationtool.skin.interfaces.IItemTabs"
+      viewName="@@examples.html"
+      weight="1010"
+      />
+  <zope:adapter
+      for="quotationtool.bibliography.interfaces.IEntry
+           zope.publisher.interfaces.browser.IBrowserRequest
+           .example.AddExampleInReferenceContext
+           z3c.menu.ready2go.interfaces.IMenuManager
+           .example_tabs.IEntryTab"
+      provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
+      factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
+      />
+  <zope:adapter
+      for="quotationtool.bibliography.interfaces.IEntry
+           zope.publisher.interfaces.browser.IBrowserRequest
+           .example.ExamplesInReferenceView
+           z3c.menu.ready2go.interfaces.IMenuManager
+           .example_tabs.IEntryTab"
+      provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
+      factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
+      />
+
 
 </configure>

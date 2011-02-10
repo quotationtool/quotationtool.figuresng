@@ -13,6 +13,7 @@ from zope.proxy import removeAllProxies
 import zc.relation
 from zope.viewlet import viewlet
 from zope.securitypolicy.interfaces import IPrincipalRoleManager
+from zope.viewlet.viewlet import ViewletBase
 
 from quotationtool.renderer.interfaces import IHTMLRenderer 
 from quotationtool.skin.interfaces import ITabbedContentLayout
@@ -76,6 +77,8 @@ class AddExampleInReferenceContext(form.AddForm):
 
     zope.interface.implements(ITabbedContentLayout)
 
+    label = _('add-example', u"Add a new Example")
+    
     fields = field.Fields(iexample.IExample).omit(
         '__parent__', '__name__', 'reference', 'length')
 
@@ -133,6 +136,22 @@ class ExampleFrontpage(form.DisplayForm, RenderQuotation):
         '__parent__', '__name__', 'reference', 'length', 'source_type')
 
 
+class ExampleCountFlag(ViewletBase):
+    
+    def render(self):
+        """Returns a list of examples that are related to the
+        quotation object in the context."""
+        cat = zope.component.getUtility(
+            zc.relation.interfaces.ICatalog,
+            context = self.context)
+        examples = list(cat.findRelations(
+            cat.tokenizeQuery({'ifigure-reference': self.context})
+            ))
+        if examples:
+            return u'<span class="examplecount">Ex:%d</span>' % len(examples)
+        return u""
+
+
 class ExamplesInReferenceView(BrowserPagelet, RenderQuotation):
     """A list of the examples in a quotation.
 
@@ -143,7 +162,7 @@ class ExamplesInReferenceView(BrowserPagelet, RenderQuotation):
     label1 = _('examples-in-reference-label1',
                u"Examples in Reference")
 
-    def description(self):
+    def OFFdescription(self):
         return _('examples-in-reference-desc',
                  u"""This is a list of the examples from the edition
                  above that were collected so far. There might be
@@ -151,6 +170,11 @@ class ExamplesInReferenceView(BrowserPagelet, RenderQuotation):
                  other editions, reprints or translations</a>.""",
                  mapping = {'href': absoluteURL(
             self.context.uniform_title, self.request) + u"/@@examples.html"})
+
+    def description(self):
+        return _('examples-in-reference-desc',
+                 u"""This is a list of the examples from the edition
+                 above that were collected so far.""")
 
     figurecontainerURL = None
 
@@ -177,14 +201,14 @@ class ExamplesInReferenceView(BrowserPagelet, RenderQuotation):
 
     limit = 200
 
-    def renderQuotationOFF(self, example):
+    def renderQuotation(self, example):
         # TODO evolve database! now we allways use plaintext
         #source = zope.component.createObject(
         #    self.context.source_type, 
         #    self.context.quotation)
         source = zope.component.createObject(
             'plaintext',
-            self.context.quotation)
+            example.quotation)
         renderer = IHTMLRenderer(source)
         return renderer.render(limit = self.limit)
         

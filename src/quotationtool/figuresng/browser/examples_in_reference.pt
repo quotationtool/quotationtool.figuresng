@@ -3,9 +3,9 @@
   <h1 tal:content="view/label1 | default"
       >Examples in Reference</h1>
 
-  <div class="content-item-details"
-       tal:content="structure context/@@details"
-       >Author: Title ...</div>
+  <!--div class="content-item-details"
+       tal:content="structure context/@@bibliography"
+       >Author: Title ...</div-->
 
   <p tal:content="structure view/description"/>
 
@@ -39,6 +39,9 @@
 		tal:content="modules/quotationtool/figuresng/iexample/IExample/quotation/title"
 		>Quotation</span>
 	  </td>
+	  <td>
+	    <span>flags</span>
+	  </td>
 	</tr>
       </thead>
       <tbody>
@@ -68,6 +71,8 @@
 	  <td tal:content="example/marker">z.B.</td>
 	  <td tal:content="structure  python: view.renderQuotation(example)"
 	      >Example text ...</td>
+	  <td tal:content="structure example/@@flags"
+	      ><span class="error schemaerror">S</span></td>
 	</tr>
       </tal:block>
       </tbody>

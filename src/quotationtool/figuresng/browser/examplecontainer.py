@@ -45,7 +45,7 @@ class SearchForm(search.SearchFormBase):
 
     catalog_name = 'examples'
 
-    query = ('quid_pro_quo', 'quid', 'pro_quo', 'marker', 'quotation', 'author', 'title')
+    query = ('any', 'quid_pro_quo', 'quid', 'pro_quo', 'marker', 'quotation', 'author', 'title')
 
     label = _('search-form-label', u"Search for Examples")
 

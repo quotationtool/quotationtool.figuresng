@@ -3,18 +3,20 @@ import zope.component
 import zc.catalog
 from zope.catalog.text import TextIndex
 from zc.catalog.catalogindex import ValueIndex
-
 from zope.catalog.interfaces import ICatalog
 import BTrees
 
+from quotationtool.site.interfaces import INewQuotationtoolSiteEvent
+from quotationtool.bibliography.interfaces import IBibliographyCatalog
+from quotationtool.bibliography.indexing import createBibliographyCatalogIndices
+
 import iexample
 import interfaces
-from quotationtool.site.interfaces import INewQuotationtoolSiteEvent
 
 
 class IndexDescriptor(object):
     """A python descriptor helping to index the attributes inherited from
-    IReferenceIndexCatalog.
+    IBibliographyCatalog.
 
     The class needs an indexer attribute."""
 
@@ -30,16 +32,17 @@ class IndexDescriptor(object):
 
 class ReferenceIndexer(object):
     """An adapter for indexing iexample objects in a
-    IReferenceIndexCatalog."""
+    IBibliographyCatalog."""
 
-    zope.interface.implements(interfaces.IReferenceIndexCatalog)
+    zope.interface.implements(IBibliographyCatalog)
 
     zope.component.adapts(iexample.IExample)
 
     def __init__(self, context):
         self.context = context
-        self.indexer = interfaces.IReferenceIndexCatalog(context.reference)
+        self.indexer = IBibliographyCatalog(context.reference)
         
+    any = IndexDescriptor('any')
     author = IndexDescriptor('author')
     title = IndexDescriptor('title')
     post = IndexDescriptor('post')
@@ -65,14 +68,23 @@ class ExampleIndexer(object):
     quotation = IndexDescriptor('quotation')
     quid = IndexDescriptor('quid')
     pro_quo = IndexDescriptor('pro_quo')
+    marker = IndexDescriptor('marker')
 
-    def getQuidProQuo(self):
+    @property
+    def quid_pro_quo(self):
         rc = getattr(self.context, 'quid', u'') + u' '
         rc += getattr(self.context, 'pro_quo', u'')
         return rc
-    quid_pro_quo = property(getQuidProQuo)
 
-    marker = IndexDescriptor('marker')
+    @property
+    def any(self):
+        rc = u""
+        rc += self.quotation + u" "
+        rc += self.quid_pro + u" "
+        rc += self.marker + u" "
+        rc += IBibliographyCatalog(self.context.reference).any
+        raise Exception, rc
+        return rc
 
 
 def createExampleIndices(cat, interface = iexample.IExampleIndexCatalog):
@@ -99,34 +111,6 @@ def createExampleIndices(cat, interface = iexample.IExampleIndexCatalog):
         field_name = 'marker')
 
 
-def createReferenceIndices(cat, interface = interfaces.IReferenceIndexCatalog):
-    """Add indexes to the catalog passed in."""
-
-    cat['author'] = TextIndex(
-        interface = interface,
-        field_name = 'author')
-    
-    cat['title'] = TextIndex(
-        interface = interface,
-        field_name = 'title')
-
-    cat['post'] = ValueIndex(
-        interface = interface,
-        field_name = 'post')
-
-    cat['ante'] = ValueIndex(
-        interface = interface,
-        field_name = 'ante')
-
-    cat['year'] = ValueIndex(
-        interface = interface,
-        field_name = 'year')
-
-    cat['language'] = ValueIndex(
-        interface = interface,
-        field_name = 'language')
-        
-
 def filter(extent, uid, obj):
     assert zc.catalog.interfaces.IFilterExtent.providedBy(extent)
     return iexample.IExample.providedBy(obj)
@@ -150,9 +134,14 @@ def createExampleCatalog(event):
 
     sm['default']['examples_search_catalog'] = cat = Catalog(extent)
 
-    createReferenceIndices(cat)
+    createBibliographyCatalogIndices(cat)
 
+    # this should redefine the 'any' index
     createExampleIndices(cat)
+
+    cat['any'] = TextIndex(
+        interface = iexample.IExampleIndexCatalog,
+        field_name = 'any')
 
     sm.registerUtility(cat, ICatalog,
                        name = "examples")

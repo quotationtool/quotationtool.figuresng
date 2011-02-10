@@ -38,7 +38,7 @@
 		>Title</span>
 	  </td>
 	  <td>
-	    <span i18n:translate="">refs</span>
+	    <span i18n:translate="">flags</span>
 	  </td>
 	</tr>
       </thead>
@@ -78,7 +78,8 @@
 		>Immanuel Kant</td>
 	    <td tal:content="structure example/reference/@@title"
 		>Kritik der Urteilskraft</td>
-	    <td>&nbsp;</td>
+	    <td tal:content="structure example/@@flags"
+		><span class="error schemaerror">S</span></td>
 	  </tr>
 	</tal:block>
       </tbody>

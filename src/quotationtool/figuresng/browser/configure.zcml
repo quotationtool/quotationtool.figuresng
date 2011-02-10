@@ -8,21 +8,21 @@
   <include file="dependencies.zcml"/>
 
   <zope:view
-      for="..interfaces.IReference"
+      for="quotationtool.bibliography.interfaces.IEntry"
       name="year"
       type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       permission="zope.View"
       factory=".reference.YearView"
       />
   <zope:view
-      for="..interfaces.IReference"
+      for="quotationtool.bibliography.interfaces.IEntry"
       name="author"
       type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       permission="zope.View"
       factory=".reference.AuthorView"
       />
   <zope:view
-      for="..interfaces.IReference"
+      for="quotationtool.bibliography.interfaces.IEntry"
       name="title"
       type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       permission="zope.View"

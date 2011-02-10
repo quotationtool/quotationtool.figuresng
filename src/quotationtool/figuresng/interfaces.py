@@ -2,14 +2,13 @@ from zope.interface import Interface, Attribute
 from zope.container.interfaces import IContained, IContainer
 from zope.container.constraints import containers, contains
 from zope.schema import Text, TextLine, List, Int, Choice, Object
+from zope.i18nmessageid import MessageFactory
 
-from i18n import _
 from quotationtool.relation.schema import Relation
+from quotationtool.bibliography.interfaces import IEntry
 
 
-class IReference(Interface):
-    """A marker interface for objects that can be referenced by
-    IFigure objects.""" 
+_ = MessageFactory('quotationtool')
 
 
 class IFigure(Interface):
@@ -31,10 +30,10 @@ class IFigure(Interface):
         ...
         RelationPreconditionError
 
-        >>> from quotationtool.figuresng.interfaces import IReference
+        >>> from quotationtool.bibliography.interfaces import IEntry
         >>> class Book(object):
         ...     pass
-        >>> zope.interface.classImplements(Book, IReference)
+        >>> zope.interface.classImplements(Book, IEntry)
 
         >>> somebook = Book()
         >>> IFigure['reference'].validate(somebook)
@@ -52,7 +51,7 @@ class IFigure(Interface):
         description = _('ifigure-reference-desc',
                         u"The publication (book, article etc.) the text is taken from"),
         required = True,
-        precondition = [IReference],
+        precondition = [IEntry],
         )
 
     quotation = Text(
@@ -105,94 +104,11 @@ class IFigureIndexCatalog(Interface):
         required = True,
         )
 
-
-class IReferenceIndexCatalog(Interface):
-    """A catalog of indexes that we want to search for in the
-    referatory."""
-
-    author = TextLine(
-        title = _('ireferenceindexcatalog-author-title',
-                  u"Author / Uniform Author"),
-        description = _('ireferenceindexcatalog-author-desc',
-                        u"Search by author. Even matches the author-field of the uniform title."),
-        required = False,
-        default = u'',
-        )
-
-    title = TextLine(
-        title = _('ireferenceindexcatalog-title-title',
-                  u"Title / Uniform Title"),
-        description = _('ireferenceindexercatalog-title-desc',
-                        u"Search by title or uniform title."
-                        ),
-        required = False,
-        default = u'',
-        )
-
-    post = Int(
-        title = _('ireferenceindexcatalog-post-title',
-                  u"Published/Written After"),
-        description = _('ireferenceindexcatalog-post-desc',
-                  u"Matches, if published after."),
-        required = False,
-        )
-
-    ante = Int(
-        title = _('ireferenceindexcatalog-ante-title',
-                  u"Published/Writter Before"),
-        description = _('ireferenceindexcatalog-ante-desc',
-                  u"Matsches, if published before."),
-        required = False,
-        )
-
-    year = Int(
-        title = _('ireferenceindexcatalog-year-title',
-                  u"Year first published"),
-        description = _('ireferenceindexcatalog-year-desc',
-                  u"Matches the exact year of origin."),
-        required = False,
-        )
-
-    language = TextLine(
-        title = _('ireferenceindexcatalog-language-title',
-                  u"Language / Original Language"),
-        description = _('ireferenceindexcatalog-language-desc',
-                  u"Search for items by language."),
-        required = False,
-        default = u'',
-        )
-
-    edition_year = TextLine(
-        title = _('irefenceindexer-editionyear-title',
-                  u"Year of edition"),
-        description = _('ireferenceindexcatalog-edtionyear-desc',
-                  u"Matches the year of the edition."),
-        required = True,
-        )
-
-    editor = TextLine(
-        title = _('ireferenceindexcatalog-editor-title',
-                  u"Editor"),
-        description = _('ireferenceindexcatalog-editor-desc',
-                  u"Search by editor."),
-        required = False,
-        default = u'',
-        )
-
-    publisher = TextLine(
-        title = _('ireferenceindexcatalog-publisher-title',
-                  u"Publisher"),
-        description = _('ireferenceindexcatalog-publisher-desc',
-                  u"Search by publisher."),
-        required = False,
-        default = u'',
-        )
-
-    location = TextLine(
-        title = _('ireferenceindexcatalog-location-title',
-                  u"Location"),
-        description = _('ireferenceindexcatalog-location-desc',
-                  u"Search by place of publication."),
+    any = TextLine(
+        title = _('catalog-any-title',
+                  u"Any field / free"),
+        description = _('catalog-any-desc',
+                        u"Free text."),
         required = False,
         default = u'',
         )

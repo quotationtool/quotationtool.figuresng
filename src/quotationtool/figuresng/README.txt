@@ -45,8 +45,8 @@ IExamplecontainerContainer objects hold Example objects only:
 
 
 Now let's check the schema of example objects. The reference attribute
-asserts the precondition of IReference objects. That means, that an
-object must implement IReference. (See
+asserts the precondition of IEntry objects. That means, that an
+object must implement IEntry. (See
 quotationtool.relation.schema.Relation.)
 
 
@@ -56,10 +56,10 @@ quotationtool.relation.schema.Relation.)
     RelationPreconditionError
 
 
-    >>> from quotationtool.figuresng.interfaces import IReference
+    >>> from quotationtool.bibliography.interfaces import IEntry
     >>> from zope.interface import implements
     >>> class Reference(object):
-    ...     implements(IReference)
+    ...     implements(IEntry)
 
     >>> kant_kdu = Reference()
     >>> tulip.reference = kant_kdu
@@ -92,11 +92,11 @@ Container for Examples
 
     >>> from quotationtool.figuresng.examplecontainer import ExampleContainer
     >>> c = ExampleContainer()
-    >>> c.count
+    >>> c._count
     0
     
-    >>> c[unicode(c.count+1)] = tulip
-    >>> c.count
+    >>> c[unicode(c._count+1)] = tulip
+    >>> c._count
     1
 
     >>> c[u'1'] = tulip
@@ -104,43 +104,46 @@ Container for Examples
     ...
     UserError: You want to use ... as key for the example, but it should be ...!
 
+There is also a name chooser.
+
 
 Indexing
 --------
 
-For getting the values out of an example object an its reference we
+In order to get the values out of an example object an its reference we
 make use of adapters. There are allready some there, which we only
 need to register:
 
     >>> from quotationtool.figuresng.exampleindexing import ReferenceIndexer
 
-Then we need an adapter that adapts IReference objects to
-IReferenceIndexCatalog. We have to implement and register this adapter
+Then we need an adapter that adapts IEntry objects to
+IBibliographyCatalog. We have to implement and register this adapter
 for each type of reference i.e. classes marked with or implementing
-the IReference interface. Otherwise we get a component lookup error:
+the IEntry interface. Otherwise we get a component lookup error:
 
-    >>> from quotationtool.figuresng.interfaces import IReferenceIndexCatalog, IReference
+    >>> from quotationtool.bibliography.interfaces import IBibliographyCatalog, IEntry
     >>> zope.component.provideAdapter(ReferenceIndexer)
-    >>> IReferenceIndexCatalog(tulip)
+    >>> IBibliographyCatalog(tulip)
     Traceback (most recent call last):
     ...
-    TypeError: ('Could not adapt', <Reference object at ...>, <InterfaceClass quotationtool.figuresng.interfaces.IReferenceIndexCatalog>)
+    TypeError: ('Could not adapt', <Reference object at ...>, <InterfaceClass quotationtool.bibliography.interfaces.IBibliographyCatalog>)
 
     >>> from zope.interface import implements
     >>> from zope.component import adapts
     >>> class DummyReferenceIndexer(object):
-    ...     implements(IReferenceIndexCatalog)
-    ...     adapts(IReference)
+    ...     implements(IBibliographyCatalog)
+    ...     adapts(IEntry)
     ...	    def __init__(self, context):
     ...         self.context = context
-    ...     author = title = u"?"
+    ...     def __getattr__(self, name):
+    ...	        return getattr(self.context, name, u'no real value')
     >>> zope.component.provideAdapter(DummyReferenceIndexer)
-    >>> isinstance(IReferenceIndexCatalog(kant_kdu), DummyReferenceIndexer)
+    >>> isinstance(IBibliographyCatalog(kant_kdu), DummyReferenceIndexer)
     True
 
-Now we can adapt example objects to IReferenceIndexCatalog:
+Now we can adapt example objects to IBibliographyCatalog:
 
-    >>> IReferenceIndexCatalog(tulip)
+    >>> IBibliographyCatalog(tulip)
     <quotationtool.figuresng.exampleindexing.ReferenceIndexer object at 0x...>
 
 
@@ -177,19 +180,20 @@ objects to example catalog indices.
     True
 
     >>> zope.component.provideAdapter(ReferenceIndexer)
-    >>> from quotationtool.figuresng.interfaces import IReferenceIndexCatalog
+    >>> from quotationtool.bibliography.interfaces import IBibliographyCatalog
 
-    >>> IReference.providedBy(tulip.reference)
+    >>> IEntry.providedBy(tulip.reference)
     True
     
 Create the catalog:
 
-    >>> from quotationtool.figuresng.exampleindexing import createExampleIndices, createReferenceIndices, filter
+    >>> from quotationtool.figuresng.exampleindexing import createExampleIndices, filter
+    >>> from quotationtool.bibliography.indexing import createBibliographyCatalogIndices
     >>> from zc.catalog.extentcatalog import FilterExtent, Catalog
     >>> extent = FilterExtent(filter)
     >>> cat = Catalog(extent)
     >>> createExampleIndices(cat)
-    >>> createReferenceIndices(cat)
+    >>> createBibliographyCatalogIndices(cat)
     >>> list(cat.keys())
     [u'ante', u'author', u'language', u'marker', u'post', u'pro_quo', u'quid', u'quid_pro_quo', u'quotation', u'title', u'year']
 
@@ -225,14 +229,12 @@ Create the catalog:
     >>> tulip.reference.author
     u'Kant, Immanuel'
 
-TODO: This is not as expected!
-
-    >>> IReferenceIndexCatalog(tulip).author
-    u'?'
+    >>> IBibliographyCatalog(tulip).author
+    u'Kant, Immanuel'
 
     >>> cat.index_doc(1, tulip)
     >>> list(cat.apply({'author': u"kant"}))
-    []
+    [1]
 
 
 Further

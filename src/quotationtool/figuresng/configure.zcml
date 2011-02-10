@@ -8,6 +8,11 @@
   <include file="permissions.zcml"/>
   <include file="roles.zcml"/>
   
+  <subscriber
+      handler=".intid.bootStrapSubscriber"
+      for="zope.processlifetime.IDatabaseOpenedWithRoot"
+      />
+
   <utility
       component=".source.QuotationSourceTypesVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

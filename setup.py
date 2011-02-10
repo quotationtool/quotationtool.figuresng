@@ -51,6 +51,8 @@ setup(
         'zope.container',
         'zope.exceptions',
         'zope.i18nmessageid',
+        'zope.intid',
+        'zope.keyreference',
         'zope.catalog',
         'zc.catalog >= 1.5',
         'zc.relation',
@@ -60,6 +62,8 @@ setup(
         'zope.security',
         'zope.securitypolicy',
         'zope.app.schema',
+        'zope.app.appsetup',
+        'zope.processlifetime',
 
         'quotationtool.site',
         'quotationtool.security',
@@ -67,6 +71,7 @@ setup(
         'quotationtool.relation',
         'quotationtool.skin',
         'quotationtool.search',
+        'quotationtool.bibliography',
 
         'z3c.template',
         'z3c.macro',

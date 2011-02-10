@@ -24,10 +24,10 @@ class Figure(Persistent):
         RelationPreconditionError
 
         >>> import zope.interface
-        >>> from quotationtool.figuresng.interfaces import IReference
+        >>> from quotationtool.bibliography.interfaces import IEntry
         >>> class Reference(object):
         ...     pass
-        >>> zope.interface.classImplements(Reference, IReference)
+        >>> zope.interface.classImplements(Reference, IEntry)
 
         >>> updikescunts = Reference()
         >>> simile.reference = updikescunts

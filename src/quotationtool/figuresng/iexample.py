@@ -10,7 +10,7 @@ from interfaces import IFigure, IFigureIndexCatalog
 class IExampleContainer(zope.interface.Interface):
     """The schema part of an example container interface."""
 
-    count = zope.schema.Int(
+    _count = zope.schema.Int(
         title = _('iexampelcontainer-count-title',
                   u"Count"),
         description = _('iexamplecontainer-count-desc',

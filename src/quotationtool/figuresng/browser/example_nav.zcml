@@ -59,7 +59,7 @@
       weight="10"
       />      
   
-  <z3c:siteMenuItem
+  <!--z3c:siteMenuItem
       for="*"
       title="[examplecontainer-about-navigation] About"
       name="examplecontainer-about"
@@ -68,7 +68,7 @@
       manager=".example_nav.IExampleContainerSubNav"
       viewName="examples/@@about.html"
       weight="110"
-      />
+      /-->
 
   <z3c:siteMenuItem
       for="*"

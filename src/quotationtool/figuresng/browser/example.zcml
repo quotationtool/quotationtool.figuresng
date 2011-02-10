@@ -131,23 +131,18 @@
 
 
   
-  <!-- view registered for IReference -->
+  <!-- view registered for IEntry -->
 
   <z3c:pagelet
-      for="..interfaces.IReference"
+      for="quotationtool.bibliography.interfaces.IEntry"
       name="addExample.html"
       class=".example.AddExampleInReferenceContext"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       permission="quotationtool.figures.AddFigure"
       />
-  <z3c:template
-      for=".example.AddExampleInReferenceContext"
-      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      template="example_add.pt"
-      />
 
   <z3c:pagelet
-      for="..interfaces.IReference"
+      for="quotationtool.bibliography.interfaces.IEntry"
       name="examples.html"
       class=".example.ExamplesInReferenceView"
       permission="zope.View"
@@ -158,6 +153,17 @@
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       template="examples_in_reference.pt"
       />
+
+  <viewlet
+      name="quotationtool.figuresng.browser.example.ExampleCountFlag"
+      for="quotationtool.bibliography.interfaces.IEntry"
+      manager="quotationtool.skin.interfaces.IFlags"
+      class=".example.ExampleCountFlag"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      weight="10"
+      />
+
   
   <!-- view registered for IUniformTitle -->
 

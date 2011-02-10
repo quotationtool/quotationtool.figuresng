@@ -30,11 +30,37 @@ def setUpOnlySome(test):
         QuotationSourceTypesVocabulary, 
         IVocabularyFactory, 
         'quotationtool.figuresng.SourceTypes')
-    import zope.security, zope.app.schema
+    import zope
+    import quotationtool
     XMLConfig('meta.zcml', zope.component)()
     XMLConfig('meta.zcml', zope.security)()
     XMLConfig('configure.zcml', zope.security)()
     XMLConfig('configure.zcml', zope.app.schema)()
+    XMLConfig('configure.zcml', zope.component)()
+    XMLConfig('configure.zcml', zope.security)()
+    XMLConfig('configure.zcml', zope.site)()
+    XMLConfig('configure.zcml', zope.annotation)()
+    XMLConfig('configure.zcml', zope.dublincore)()
+    XMLConfig('configure.zcml', quotationtool.site)()
+    # subscribers
+    from quotationtool.site.interfaces import INewQuotationtoolSiteEvent
+    import quotationtool.relation
+    zope.component.provideHandler(
+        quotationtool.relation.createRelationCatalog,
+        adapts=[INewQuotationtoolSiteEvent])
+    zope.component.provideHandler(
+        quotationtool.figuresng.examplecontainer.createExampleContainer,
+        adapts=[INewQuotationtoolSiteEvent])
+    zope.component.provideHandler(
+        quotationtool.figuresng.exampleindexing.createExampleCatalog,
+        adapts=[INewQuotationtoolSiteEvent])
+    zope.component.provideHandler(
+        quotationtool.figuresng.figure.createRelationIndex,
+        adapts=[INewQuotationtoolSiteEvent])
+    # container object annotation
+    from zope.annotation.interfaces import IAttributeAnnotatable
+    from quotationtool.figuresng.examplecontainer import ExampleContainer
+    zope.interface.classImplements(ExampleContainer, IAttributeAnnotatable)
 
 
 class SourceTests(PlacelessSetup, unittest.TestCase):
@@ -79,7 +105,7 @@ class SiteCreationTests(PlacelessSetup, unittest.TestCase):
 
     def setUp(self):
         super(SiteCreationTests, self).setUp()
-        setUpZCML(self)
+        setUpOnlySome(self)
         import quotationtool.site
         XMLConfig('configure.zcml', quotationtool.site)
 

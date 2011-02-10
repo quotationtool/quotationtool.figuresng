@@ -33,6 +33,12 @@
 	/>
   </class>
 
+  <adapter
+      factory=".examplecontainer.ExampleNameChooser"
+      provides="zope.container.interfaces.INameChooser"
+      for=".iexample.IExampleContainer"
+      />
+
   <subscriber handler=".examplecontainer.createExampleContainer"/>
 
 
@@ -59,7 +65,7 @@
 
   <adapter
       for=".iexample.IExample"
-      provides=".interfaces.IReferenceIndexCatalog"
+      provides="quotationtool.bibliography.interfaces.IBibliographyCatalog"
       factory=".exampleindexing.ReferenceIndexer"
       />
 

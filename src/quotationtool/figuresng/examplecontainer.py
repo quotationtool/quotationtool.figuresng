@@ -4,6 +4,7 @@ from zope.container.btree import BTreeContainer
 from zope.schema.fieldproperty import FieldProperty
 from zope.dublincore.interfaces import IWriteZopeDublinCore
 from zope.exceptions.interfaces import UserError
+from zope.container.contained import NameChooser
 
 from iexample import IExampleContainer, IExampleContainerContainer
 from quotationtool.site.interfaces import INewQuotationtoolSiteEvent
@@ -16,13 +17,21 @@ class ExampleContainer(BTreeContainer):
     implements(IExampleContainer,
                IExampleContainerContainer)
 
-    count = FieldProperty(IExampleContainer['count'])
+    _count = FieldProperty(IExampleContainer['_count'])
 
     def __setitem__(self, key, val):
-        if not key == unicode(self.count+1):
-            raise UserError(_(u"You want to use $KEY as key for the example, but it should be %COUNT!", mapping={'KEY': key, 'COUNT': self.count}))
+        if not key == unicode(self._count+1):
+            raise UserError(_(u"You want to use $KEY as key for the example, but it should be %COUNT!", mapping={'KEY': key, 'COUNT': self._count}))
         super(ExampleContainer, self).__setitem__(key, val)
-        self.count += 1
+        self._count += 1
+
+
+class ExampleNameChooser(NameChooser):
+    """ A name chooser for example objects in the container context."""
+    
+    def chooseName(self, name, obj):
+        self.checkName(unicode(self.context._count + 1), obj)
+        return unicode(self.context._count + 1)
 
 
 @adapter(INewQuotationtoolSiteEvent)

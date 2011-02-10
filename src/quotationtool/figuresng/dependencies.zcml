@@ -9,12 +9,16 @@
   <include package="zope.component"/>
   <include package="zope.site"/>
   <include package="zope.security"/>
+  <include package="zope.annotation"/>
+  <include package="zope.intid"/>
+  <include package="zope.keyreference"/>
+  <include package="zope.catalog"/>
+  <include package="zc.catalog"/>
   
   <include package="quotationtool.security"/>
   <include package="quotationtool.renderer"/>
   <include package="quotationtool.site"/>
   <include package="quotationtool.relation"/>
-  <include package="zope.annotation"/>
   
 
 </configure>
