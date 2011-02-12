@@ -20,7 +20,7 @@
       for="..iexample.IExample"
       title="[example-edit-tabs] Edit"
       name="example-edit"
-      permission="zope.View"
+      permission="quotationtool.figures.EditFigure"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       manager="quotationtool.skin.interfaces.IItemTabs"
       viewName="@@edit.html"

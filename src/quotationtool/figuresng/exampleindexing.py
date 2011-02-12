@@ -83,7 +83,6 @@ class ExampleIndexer(object):
         rc += self.quid_pro + u" "
         rc += self.marker + u" "
         rc += IBibliographyCatalog(self.context.reference).any
-        raise Exception, rc
         return rc
 
 

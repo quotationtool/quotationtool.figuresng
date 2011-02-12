@@ -30,14 +30,12 @@ class RenderQuotation(object):
     limit = None
     
     def renderQuotation(self):
-        # TODO evolve database! now we allways use plaintext
-        #source = zope.component.createObject(
-        #    self.context.source_type, 
-        #    self.context.quotation)
         source = zope.component.createObject(
-            'plaintext',
+            self.context.source_type,
             self.context.quotation)
-        renderer = IHTMLRenderer(source)
+        renderer = zope.component.getMultiAdapter(
+            (removeAllProxies(source), self.request),
+            IHTMLRenderer, name = u'')
         return renderer.render(limit = self.limit)
 
 
@@ -202,14 +200,12 @@ class ExamplesInReferenceView(BrowserPagelet, RenderQuotation):
     limit = 200
 
     def renderQuotation(self, example):
-        # TODO evolve database! now we allways use plaintext
-        #source = zope.component.createObject(
-        #    self.context.source_type, 
-        #    self.context.quotation)
         source = zope.component.createObject(
-            'plaintext',
+            example.source_type,
             example.quotation)
-        renderer = IHTMLRenderer(source)
+        renderer = zope.component.getMultiAdapter(
+            (removeAllProxies(source), self.request),
+            IHTMLRenderer, name = u'')
         return renderer.render(limit = self.limit)
         
 
