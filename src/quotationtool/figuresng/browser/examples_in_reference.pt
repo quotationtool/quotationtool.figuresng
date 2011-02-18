@@ -47,6 +47,7 @@
       <tbody>
       <tal:block repeat="example view/examples">
 	<tr tal:condition="repeat/example/odd" class="odd">
+	  <metal:macro define-macro="example-row">
 	  <td tal:content="example/position">42</td>
 	  <td>
 	    <a href="/examples/1/"
@@ -58,21 +59,12 @@
 	  <td tal:content="example/marker">z.B.</td>
 	  <td tal:content="structure python: view.renderQuotation(example)"
 	      >Example text ...</td>
-	</tr>
-	<tr tal:condition="repeat/example/even" class="even">
-	  <td tal:content="example/position">42</td>
-	  <td>
-	    <a href="/examples/1/"
-	       tal:content="example/quid"
-	       tal:attributes="href string:${view/figurecontainerURL}/${example/__name__}/" 
-	       >Tulpe</a>
-	  </td>
-	  <td tal:content="example/pro_quo">Das Schöne</td>
-	  <td tal:content="example/marker">z.B.</td>
-	  <td tal:content="structure  python: view.renderQuotation(example)"
-	      >Example text ...</td>
 	  <td tal:content="structure example/@@flags"
 	      ><span class="error schemaerror">S</span></td>
+	  </metal:macro>
+	</tr>
+	<tr tal:condition="repeat/example/even" class="even">
+	  <metal:macro use-macro="template/macros/example-row"/>
 	</tr>
       </tal:block>
       </tbody>
