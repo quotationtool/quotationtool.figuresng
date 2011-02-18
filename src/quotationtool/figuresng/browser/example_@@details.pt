@@ -54,7 +54,7 @@
       </td>
       <td>
 	<a class="content" href=""
-	    tal:content="structure context/reference/@@bibliography"
+	    tal:content="structure context/reference/@@citation"
 	    tal:attributes="href string:${context/reference/@@absolute_url}/@@examples.html"
 	    >...</a>
       </td>
