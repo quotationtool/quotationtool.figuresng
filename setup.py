@@ -72,6 +72,7 @@ setup(
         'quotationtool.skin',
         'quotationtool.search',
         'quotationtool.bibliography',
+        'quotationtool.tinymce',
 
         'z3c.template',
         'z3c.macro',

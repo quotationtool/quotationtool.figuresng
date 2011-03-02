@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <include package="quotationtool.skin"/>
+  <include package="quotationtool.tinymce"/>
   
   <include package="z3c.template" file="meta.zcml"/>
   <include package="z3c.macro" file="meta.zcml"/>
@@ -20,6 +21,5 @@
   <include package="z3c.formui"/>
   <include package="z3c.menu.ready2go"/>
   <!--include package="zope.pluggableauth"/-->
-
 
 </configure>

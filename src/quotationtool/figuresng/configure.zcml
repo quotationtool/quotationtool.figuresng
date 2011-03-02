@@ -33,6 +33,13 @@
       permission="zope.Public"
       />
 
+  <utility
+      component=".source.htmlQuotationFactory"
+      name="html"
+      provides=".interfaces.IQuotationSourceFactory"
+      permission="zope.Public"
+      />
+
   <!-- IFigure, this is for inheritence by more specific types  -->
 
   <subscriber

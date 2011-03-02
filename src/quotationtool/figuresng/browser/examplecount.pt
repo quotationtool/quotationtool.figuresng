@@ -1,0 +1,7 @@
+<span class="examplecount" i18n:domain="quotationtool"
+      tal:define="count view/count"
+      tal:condition="count|nothing">
+  <abbr title="Number of Examples"
+	i18n:attributes="title examplecount-abbr">Ex</abbr>:<tal:block 
+	content="view/count">2</tal:block>
+</span>

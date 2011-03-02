@@ -1,0 +1,20 @@
+span.quotationtool-example-quid {
+    background-image: url('../img/quid.gif');
+}
+span.quotationtool-example-proquo {
+    background-image: url('../img/proquo.gif');
+}
+
+span.quotationtool-example-marker {
+    background-image: url('../img/marker.gif');
+}
+span.quotationtool-example-quid,
+span.quotationtool-example-proquo,
+span.quotationtool-example-marker {
+    background-repeat: no-repeat;
+    padding-left: 25px;
+    min-height: 20px;
+    display: inline-block;
+    background-color:#f0fcf0;
+    border: 1px dotted #ccc;
+}

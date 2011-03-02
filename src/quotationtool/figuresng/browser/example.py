@@ -3,6 +3,7 @@ import zope.component
 from z3c.form import field
 from z3c.formui import form
 import z3c.form.interfaces
+from z3c.form.interfaces import DISPLAY_MODE
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import absoluteURL
@@ -14,6 +15,8 @@ import zc.relation
 from zope.viewlet import viewlet
 from zope.securitypolicy.interfaces import IPrincipalRoleManager
 from zope.viewlet.viewlet import ViewletBase
+import zc.resourcelibrary
+from zope.schema import getValidationErrors
 
 from quotationtool.renderer.interfaces import IHTMLRenderer 
 from quotationtool.skin.interfaces import ITabbedContentLayout
@@ -61,6 +64,16 @@ class ListView(BrowserView, RenderQuotation):
         return self.template()
 
 
+class SchemaErrorFlag(ViewletBase):
+    """ Put flag on invalid examples."""
+
+    def render(self):
+        if getValidationErrors(iexample.IExample, self.context):
+            return u'<abbr title="Schema validation error" class="error schema-validation-error">S</abbr>'
+        else:
+            return u''
+
+
 class LabelView(BrowserView):
     """A view that informs about the object type."""
 
@@ -78,11 +91,16 @@ class AddExampleInReferenceContext(form.AddForm):
     label = _('add-example', u"Add a new Example")
     
     fields = field.Fields(iexample.IExample).omit(
-        '__parent__', '__name__', 'reference', 'length')
+        '__parent__', '__name__', 'reference', 'length', 'source_type')
+
+    def __init__(self, context, request):
+        super(AddExampleInReferenceContext, self).__init__(context, request)
+        zc.resourcelibrary.need('quotationtool.tinymce.QuotationAndExample')
 
     def create(self, data):
         example = Example()
         form.applyChanges(self, example, data)
+        example.source_type = 'html'
         
         # We want an object which is not security proxied as reference
         # attribute:
@@ -119,6 +137,15 @@ class ExampleEditForm(form.EditForm, RenderQuotation):
     fields = field.Fields(iexample.IExample).omit(
         '__parent__', '__name__', 'reference', 'length')
 
+    def __init__(self, context, request):
+        super(ExampleEditForm, self).__init__(context, request)
+        if context.source_type == 'html':
+            zc.resourcelibrary.need('quotationtool.tinymce.QuotationAndExample')
+
+    def updateWidgets(self):
+        super(ExampleEditForm, self).updateWidgets()
+        self.widgets['source_type'].mode = DISPLAY_MODE
+
 
 class ExampleFrontpage(form.DisplayForm, RenderQuotation):
     """The frontpage for quotation objects."""
@@ -135,19 +162,21 @@ class ExampleFrontpage(form.DisplayForm, RenderQuotation):
 
 
 class ExampleCountFlag(ViewletBase):
-    
-    def render(self):
-        """Returns a list of examples that are related to the
-        quotation object in the context."""
+
+    template = ViewPageTemplateFile('examplecount.pt')
+
+    def count(self):
+        """Return the number of examples referencing to context"""
         cat = zope.component.getUtility(
             zc.relation.interfaces.ICatalog,
             context = self.context)
         examples = list(cat.findRelations(
             cat.tokenizeQuery({'ifigure-reference': self.context})
             ))
-        if examples:
-            return u'<span class="examplecount">Ex:%d</span>' % len(examples)
-        return u""
+        return len(examples)
+    
+    def render(self):
+        return self.template()
 
 
 class ExamplesInReferenceView(BrowserPagelet, RenderQuotation):

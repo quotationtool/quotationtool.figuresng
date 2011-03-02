@@ -44,8 +44,8 @@
       </thead>
       <tbody>
 	<tal:block repeat="example view/getExamples">
-	  <tr tal:condition="repeat/example/odd"
-	      class="odd">
+	  <tr tal:condition="repeat/example/odd" class="odd">
+	    <metal:macro define-macro="example-row">
 	    <td>
 	      <a href="" class="content"
 		  tal:attributes="href example/@@absolute_url"
@@ -60,26 +60,12 @@
 		>Immanuel Kant</td>
 	    <td tal:content="structure example/reference/@@title"
 		>Kritik der Urteilskraft</td>
-	    <td>&nbsp;</td>
-	  </tr>
-	  <tr tal:condition="repeat/example/even"
-	      class="even">
-	    <td>
-	      <a href="" class="content"
-		  tal:attributes="href example/@@absolute_url"
-		  tal:content="example/quid"
-		  >Tulpe</a>
-	    </td>
-	    <td tal:content="example/pro_quo">Blume, eine gewisse Zweckmaessigkeit ...</td>
-	    <td tal:content="example/marker">z.B.</td>
-	    <td tal:content="structure example/reference/@@year"
-		>1793</td>
-	    <td tal:content="structure example/reference/@@author"
-		>Immanuel Kant</td>
-	    <td tal:content="structure example/reference/@@title"
-		>Kritik der Urteilskraft</td>
 	    <td tal:content="structure example/@@flags"
 		><span class="error schemaerror">S</span></td>
+	    </metal:macro>
+	  </tr>
+	  <tr tal:condition="repeat/example/even" class="even">
+	    <metal:macro use-macro="macro:example-row"/>
 	  </tr>
 	</tal:block>
       </tbody>

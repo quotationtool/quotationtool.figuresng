@@ -2,9 +2,13 @@ import zope.interface
 from zope.container.interfaces import IContained, IContainer
 from zope.container.constraints import containers, contains
 from zope.schema import TextLine
+import re
 
 from i18n import _
 from interfaces import IFigure, IFigureIndexCatalog
+
+quid_html_tag = re.compile('<span class=(\"|\')quotationtool-example-quid(\"|\')>.*</span>')
+proquo_html_tag = re.compile('<span class=(\"|\')quotationtool-example-proquo(\"|\')>.*</span>')
 
 
 class IExampleContainer(zope.interface.Interface):
@@ -36,7 +40,7 @@ class IExample(IFigure, IContained):
                   u"Example"),
         description = _('iexample-quid-desc',
                         u"What is given as example?"),
-        required = False,
+        required = True,
         default = u'',
         missing_value = u'',
         )
@@ -46,7 +50,7 @@ class IExample(IFigure, IContained):
                   u"Denotation/Meaning"),
         description = _('iexample-proquo-desc',
                         u"What is the example associated with? What does it stand for?"),
-        required = False,
+        required = True,
         default = u'',
         missing_value = u'',
         )
@@ -68,7 +72,29 @@ class IExample(IFigure, IContained):
                 _('netherquidnorproquo',
                   u"Ether 'Example' or 'Denotation/Meaning' must be given!")
                 ) 
-        
+
+    @zope.interface.invariant
+    def checkTagsInHTMLQuotation(example):
+        if example.source_type != 'html':
+            return
+        has_quid = has_proquo = False
+        if quid_html_tag.search(example.quotation):
+            has_quid = True
+        if proquo_html_tag.search(example.quotation):
+            has_proquo = True
+        if not (has_quid or has_proquo):
+            raise zope.interface.Invalid(
+                _('nether-quid-nor-proquo-tag',
+                  u"Missing tags for 'Example' and for 'Denotation/Meaning' in the quotation"))
+        if not has_quid:
+            raise zope.interface.Invalid(
+                _('no-quid-tag',
+                  u"Missing 'Example' tag in the quotation"))
+        if not has_proquo:
+            raise zope.interface.Invalid(
+                _('no-proquo-tag',
+                  u"Missing 'Denotation/Meaning' tag in the quotation"))
+
 
 class IExampleIndexCatalog(IFigureIndexCatalog):
     """A collection of indexes for example search and destroy missions... """

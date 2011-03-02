@@ -4,8 +4,15 @@ from zope.component.factory import Factory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.schema.interfaces import IVocabularyFactory
 
-from quotationtool.renderer import plaintext, rest
+from quotationtool.renderer import plaintext, rest, html
 from interfaces import  IQuotationSourceFactory
+
+
+htmlQuotationFactory = Factory(
+    html.HTMLSource,
+    html.htmlSourceFactory.title,
+    html.htmlSourceFactory.description
+    )
 
 
 plainTextQuotationFactory = Factory(

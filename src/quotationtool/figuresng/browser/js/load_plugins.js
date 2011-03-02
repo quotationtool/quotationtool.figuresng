@@ -1,0 +1,1 @@
+tinymce.PluginManager.load('quotationtoolexample', '/@@/tinymce.quotationtoolexample/editor_plugin_src.js')
