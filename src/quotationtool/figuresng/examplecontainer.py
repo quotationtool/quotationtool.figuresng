@@ -21,7 +21,7 @@ class ExampleContainer(BTreeContainer):
 
     def __setitem__(self, key, val):
         if not key == unicode(self._count+1):
-            raise UserError(_(u"You want to use $KEY as key for the example, but it should be %COUNT!", mapping={'KEY': key, 'COUNT': self._count}))
+            raise UserError(_(u"You want to use $KEY as key for the example, but it should be $COUNT!", mapping={'KEY': key, 'COUNT': self._count}))
         super(ExampleContainer, self).__setitem__(key, val)
         self._count += 1
 

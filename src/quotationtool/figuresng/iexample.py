@@ -110,18 +110,18 @@ class IExampleIndexCatalog(IFigureIndexCatalog):
 
     pro_quo = TextLine(
         title = _('iexampleindexcatalog-proquo-title',
-                  u"Rule"),
+                  u"Denotation/Meaning"),
         description = _('iexampleindexcatalog-proquo-desc',
-                        u"Search by the rule or general sentence illustrated by the example."),
+                        u"Search by the denotation or meaning (general sentence or rule) illustrated by the example."),
         required = False,
         default = u'',
         )
 
     quid_pro_quo = TextLine(
         title = _('iexampleindexcatalog-quidproquo-title',
-                  u"Example OR Rule"),
+                  u"Example OR Denotation/Meaning"),
         description = _('iexampleindexcatalog-quidproquo-desc',
-                        u"Search by example OR rule. Matches both fields. Even used for the quick search."),
+                        u"Search by example OR denotation/meaning. Matches both fields."),
         required = False,
         default = u'',
         )

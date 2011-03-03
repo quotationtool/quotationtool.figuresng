@@ -190,7 +190,7 @@ class ExamplesInReferenceView(BrowserPagelet, RenderQuotation):
                u"Examples in Reference")
 
     def OFFdescription(self):
-        return _('examples-in-reference-desc',
+        return _('examples-in-reference-desc-OFF',
                  u"""This is a list of the examples from the edition
                  above that were collected so far. There might be
                  <a href='${href}' class='content'>more examples in

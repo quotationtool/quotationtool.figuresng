@@ -24,17 +24,17 @@
 	  </td>
 	  <td>
 	    <span
-		tal:content="modules/quotationtool/referatory/interfaces/IUniformTitle/year/title"
+		tal:content="modules/quotationtool/bibliography/interfaces/IBibliographyCatalog/year/title"
 		>Year</span>
 	  </td>
 	  <td>
 	    <span
-		tal:content="modules/quotationtool/referatory/interfaces/IUniformTitle/uniform_author/title"
+		tal:content="modules/quotationtool/bibliography/interfaces/IBibliographyCatalog/author/title"
 		>Author</span>
 	  </td>
 	  <td>
 	    <span
-		tal:content="modules/quotationtool/referatory/interfaces/IUniformTitle/uniform_title/title"
+		tal:content="modules/quotationtool/bibliography/interfaces/IBibliographyCatalog/title/title"
 		>Title</span>
 	  </td>
 	  <td>
