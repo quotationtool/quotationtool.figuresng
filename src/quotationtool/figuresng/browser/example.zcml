@@ -78,6 +78,17 @@
       class=".examplecontainer.SearchForm"
       />
 
+  <viewlet
+      name="example-by-id"
+      for="*"
+      permission="zope.View"
+      manager="quotationtool.search.interfaces.ISearchFormPrimer"
+      view=".examplecontainer.SearchForm"
+      class=".examplecontainer.ExampleByIdForm"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      weight="50"
+      />
+
   <!-- search target option -->
   <viewlet
       name="examples"
