@@ -89,6 +89,10 @@ class AddExampleInReferenceContext(form.AddForm):
     zope.interface.implements(ITabbedContentLayout)
 
     label = _('add-example', u"Add a new Example")
+
+    info = _('add-example-info', 
+             u"The <span class=\"quotationtool-example-quid\">example</span> and its <span class=\"quotationtool-example-proquo\">denotation/meaning</span> have to be tagged in the quotation using the flags. If a marker is present, please tag the <span class=\"quotationtool-example-marker\">marker</span>, too.<br/>Then fill in the example, the denotation/meaning and--if present--the marker fields. The denotation/meaning field should not be used for repeating theorems most accurately, but for the term that is in question. The same with the example field. The input data should serve searching the database but not hermeneutics. If you would like to give more accurate information then please write a comment after submitting the form."
+             )
     
     fields = field.Fields(iexample.IExample).omit(
         '__parent__', '__name__', 'reference', 'length', 'source_type')
@@ -133,6 +137,8 @@ class ExampleEditForm(form.EditForm, RenderQuotation):
     """A form to edit the quotation."""
 
     zope.interface.implements(ITabbedContentLayout)
+
+    info = AddExampleInReferenceContext.info
 
     fields = field.Fields(iexample.IExample).omit(
         '__parent__', '__name__', 'reference', 'length')
