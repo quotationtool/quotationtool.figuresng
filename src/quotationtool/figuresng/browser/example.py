@@ -3,7 +3,7 @@ import zope.component
 from z3c.form import field
 from z3c.formui import form
 import z3c.form.interfaces
-from z3c.form.interfaces import DISPLAY_MODE
+from z3c.form.interfaces import DISPLAY_MODE, HIDDEN_MODE
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import absoluteURL
@@ -95,11 +95,16 @@ class AddExampleInReferenceContext(form.AddForm):
              )
     
     fields = field.Fields(iexample.IExample).omit(
-        '__parent__', '__name__', 'reference', 'length', 'source_type')
+        '__parent__', '__name__', 'reference', 'length')#, 'source_type')
 
     def __init__(self, context, request):
         super(AddExampleInReferenceContext, self).__init__(context, request)
         zc.resourcelibrary.need('quotationtool.tinymce.QuotationAndExample')
+
+    def updateWidgets(self):
+        super(AddExampleInReferenceContext, self).updateWidgets()
+        self.widgets['source_type'].value = ('html',)
+        self.widgets['source_type'].mode = HIDDEN_MODE # TODO: make more secure!
 
     def create(self, data):
         example = Example()

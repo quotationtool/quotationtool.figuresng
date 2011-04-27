@@ -235,7 +235,7 @@
   <!-- validator for tinymce field -->
   
   <!--zope:adapter 
-      factory=".example_validation.ExampleQuotationValidator"
+      factory=".example_validation.ExampleSchemaValidator"
       /-->
   
 
