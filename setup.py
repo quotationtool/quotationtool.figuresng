@@ -73,6 +73,7 @@ setup(
         'quotationtool.search',
         'quotationtool.bibliography',
         'quotationtool.tinymce',
+        'quotationtool.editorial',
 
         'z3c.template',
         'z3c.macro',

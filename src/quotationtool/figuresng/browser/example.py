@@ -20,6 +20,7 @@ from zope.schema import getValidationErrors
 
 from quotationtool.renderer.interfaces import IHTMLRenderer 
 from quotationtool.skin.interfaces import ITabbedContentLayout
+from quotationtool.editorial.browser.form import Z3cFormMixin
 
 from quotationtool.figuresng import iexample
 from quotationtool.figuresng.example import Example
@@ -138,7 +139,7 @@ class AddExampleInReferenceContext(form.AddForm):
         return absoluteURL(self._obj, self.request)
 
 
-class ExampleEditForm(form.EditForm, RenderQuotation):
+class ExampleEditForm(Z3cFormMixin, form.EditForm, RenderQuotation):
     """A form to edit the quotation."""
 
     zope.interface.implements(ITabbedContentLayout)

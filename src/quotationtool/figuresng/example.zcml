@@ -52,6 +52,9 @@
     <implements
         interface="zope.annotation.interfaces.IAttributeAnnotatable"
 	/>
+    <implements
+	interface="quotationtool.editorial.interfaces.IHasEditorialStatus"
+	/>
     <allow
 	interface=".iexample.IExample"
 	/>
