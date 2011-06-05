@@ -1,0 +1,85 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quotationtool">
+
+  <z3c:pagelet
+      name="examples.html"
+      for="..iexample.IExampleContainer"
+      class=".table.ExampleContainerTable"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      />
+  <z3c:template
+      for=".table.ExampleContainerTable"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="examples.pt"
+      />
+
+  <adapter
+      name="quid"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IAuthorTitleExampleTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.QuidColumn"
+      />
+      
+  <adapter
+      name="pro_quo"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   z3c.table.interfaces.ITable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.ProQuoColumn"
+      />
+      
+  <adapter
+      name="marker"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IAuthorTitleExampleTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.MarkerColumn"
+      />
+      
+  <adapter
+      name="year"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IAuthorTitleExampleTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.YearColumn"
+      />
+      
+  <adapter
+      name="author"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IAuthorTitleExampleTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.AuthorColumn"
+      />
+      
+  <adapter
+      name="title"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IAuthorTitleExampleTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.TitleColumn"
+      />
+      
+  <adapter
+      name="flags"
+      for="..iexample.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IAuthorTitleExampleTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.FlagsColumn"
+      />
+      
+  
+
+</configure>

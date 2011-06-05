@@ -237,7 +237,8 @@
   <!--zope:adapter 
       factory=".example_validation.ExampleSchemaValidator"
       /-->
-  
+
+  <include file="table.zcml"/>
 
   <include file="example_nav.zcml"/>
   <include file="example_tabs.zcml"/>
