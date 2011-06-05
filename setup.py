@@ -88,6 +88,7 @@ setup(
         'z3c.menu.ready2go',
         'z3c.table',
         'zope.contentprovider',
+        'z3c.indexer',
 
         'zope.app.pagetemplate',
         'zope.viewlet',

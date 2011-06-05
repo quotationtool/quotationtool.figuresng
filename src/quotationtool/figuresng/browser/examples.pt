@@ -6,4 +6,6 @@
 
   <div tal:replace="structure view/renderTable"/>
 
+  <div class="batch" tal:content="structure view/renderBatch"/>
+
 </div>

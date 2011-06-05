@@ -18,64 +18,107 @@
       />
 
   <adapter
-      name="quid"
-      for="..iexample.IExampleContainer
+      for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExampleTable"
+	   z3c.table.interfaces.ITable
+	   .table.ISortingColumn"
+      provides="z3c.table.interfaces.IColumnHeader"
+      factory=".table.SortingColumnHeader"
+      />
+
+  <z3c:pagelet
+      name="examples"
+      for="quotationtool.bibliography.interfaces.IEntry"
+      class=".table.ExamplesInReferenceTable"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      />
+  <z3c:template
+      for=".table.IExamplesInReferenceTable"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="examples_in_reference_table.pt"
+      />
+  <adapter
+      factory=".table.ExamplesInReference"
+      />
+
+  <adapter
+      name="quid"
+      for="*
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.QuidColumn"
       />
       
   <adapter
       name="pro_quo"
-      for="..iexample.IExampleContainer
+      for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   z3c.table.interfaces.ITable"
+	   .table.IExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.ProQuoColumn"
       />
       
   <adapter
       name="marker"
-      for="..iexample.IExampleContainer
+      for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExampleTable"
+	   .table.IExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.MarkerColumn"
       />
       
   <adapter
       name="year"
-      for="..iexample.IExampleContainer
+      for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExampleTable"
+	   .table.IAuthorTitleExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.YearColumn"
       />
       
   <adapter
       name="author"
-      for="..iexample.IExampleContainer
+      for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExampleTable"
+	   .table.IAuthorTitleExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.AuthorColumn"
       />
       
   <adapter
       name="title"
-      for="..iexample.IExampleContainer
+      for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExampleTable"
+	   .table.IAuthorTitleExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.TitleColumn"
       />
       
   <adapter
-      name="flags"
-      for="..iexample.IExampleContainer
+      name="position"
+      for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExampleTable"
+	   .table.IExamplesInReferenceTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.PositionColumn"
+      />
+      
+  <adapter
+      name="quotation"
+      for="*
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IExamplesInReferenceTable"
+      provides="z3c.table.interfaces.IColumn"
+      factory=".table.QuotationColumn"
+      />
+      
+  <adapter
+      name="flags"
+      for="*
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+	   .table.IExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.FlagsColumn"
       />
