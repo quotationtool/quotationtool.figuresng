@@ -65,13 +65,12 @@ setup(
         'zope.app.appsetup',
         'zope.processlifetime',
 
+        'quotationtool.quotation',
         'quotationtool.site',
         'quotationtool.security',
         'quotationtool.renderer',
         'quotationtool.relation',
         'quotationtool.skin',
-        'quotationtool.search',
-        'quotationtool.bibliography',
         'quotationtool.tinymce',
         'quotationtool.editorial',
 

@@ -1,0 +1,64 @@
+<configure
+    xmlns:zope="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quotationtool">
+
+  <z3c:pagelet
+      for="quotationtool.quotation.interfaces.IReference"
+      name="addExample.html"
+      class=".form.AddExampleInReferenceContext"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="quotationtool.quotation.AddQuotation"
+      />
+
+  <z3c:pagelet
+      for="..interfaces.IExample"
+      name="edit.html"
+      class=".form.ExampleEditForm"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="quotationtool.quotation.EditQuotation"
+      />
+
+    <!-- tinymce --> 
+
+  <browser:resourceDirectory
+      name="tinymce.quotationtoolexample"
+      directory="tiny_mce/plugins/quotationtoolexample"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+
+  <zope:resourceLibrary
+      name="quotationtool.tinymce.QuotationAndExample"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      require="quotationtool.tinymce"
+      >
+    <directory
+	source="js"
+	include="load_plugins.js quotation_and_example.js"
+	/>
+  </zope:resourceLibrary>
+  <zope:resourceLibrary
+      name="quotationtool.tinymce.Quotation"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      require="quotationtool.tinymce"
+      >
+    <directory
+	source="js"
+	include="load_plugins.js quotation.js"
+	/>
+  </zope:resourceLibrary>
+  <zope:resourceLibrary
+      name="quotationtool.tinymce.Example"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      require="quotationtool.tinymce"
+      >
+    <directory
+	source="js"
+	include="load_plugins.js example.js"
+	/>
+  </zope:resourceLibrary>
+	
+
+
+</configure>

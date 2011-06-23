@@ -5,50 +5,87 @@
 
   <include file="dependencies.zcml"/>
 
-  <include file="permissions.zcml"/>
-  <include file="roles.zcml"/>
+  <interface
+      interface=".interfaces.IExampleContainer"
+      type="zope.app.content.interfaces.IContentType"
+      />
+
+  <class class=".examplecontainer.ExampleContainer">
+    <implements
+        interface="zope.annotation.interfaces.IAttributeAnnotatable"
+	/>
+    <implements
+        interface="zope.container.interfaces.IContainerNamesContainer"
+	/>
+    <allow
+        interface="zope.container.interfaces.IReadContainer" 
+        />
+    <require
+        permission="zope.ManageContent"
+        interface="zope.container.interfaces.IWriteContainer"
+        />
+    <allow
+	interface=".interfaces.IExampleContainer"
+	/>
+    <require
+        permission="zope.ManageSite"
+	set_schema=".interfaces.IExampleContainer"
+	/>
+  </class>
+
+  <adapter
+      factory=".examplecontainer.ExampleNameChooser"
+      provides="zope.container.interfaces.INameChooser"
+      for=".interfaces.IExampleContainer"
+      />
+
+  <subscriber handler=".examplecontainer.createExampleContainer"/>
+
+
+  <interface
+      interface=".interfaces.IExample"
+      type="zope.app.content.interfaces.IContentType"
+      name="Example"
+      />
+
+  <class class=".example.Example">
+    <implements
+        interface="zope.annotation.interfaces.IAttributeAnnotatable"
+	/>
+    <implements
+	interface="quotationtool.editorial.interfaces.IHasEditorialStatus"
+	/>
+    <allow
+	interface=".interfaces.IExample"
+	/>
+    <require
+	permission="zope.ManageContent"
+	set_schema=".interfaces.IExample"
+	/>
+  </class>
+
+  <utility
+      component=".example.example_factory"
+      provides="zope.component.interfaces.IFactory"
+      name="quotationtool.figuresng.Example"
+      permission="zope.ManageContent"
+      />
+
+  <adapter
+      for=".interfaces.IExample"
+      provides="z3c.indexer.interfaces.IValueIndexer"
+      factory=".indexing.AnyValueIndexer"
+      name="any-fulltext"
+      />
+
+  <adapter
+      for=".interfaces.IExample"
+      provides="z3c.indexer.interfaces.IMultiIndexer"
+      factory=".indexing.ExampleIndexer"
+      name="ExampleIndexer"
+      />
   
-  <subscriber
-      handler=".intid.bootStrapSubscriber"
-      for="zope.processlifetime.IDatabaseOpenedWithRoot"
-      />
-
-  <utility
-      component=".source.QuotationSourceTypesVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      name="quotationtool.figuresng.SourceTypes"
-      />
-  
-  <utility
-      component=".source.plainTextQuotationFactory"
-      name="plaintext"
-      provides=".interfaces.IQuotationSourceFactory"
-      permission="zope.Public"
-      />
-
-  <utility
-      component=".source.restQuotationFactory"
-      name="rest"
-      provides=".interfaces.IQuotationSourceFactory"
-      permission="zope.Public"
-      />
-
-  <utility
-      component=".source.htmlQuotationFactory"
-      name="html"
-      provides=".interfaces.IQuotationSourceFactory"
-      permission="zope.Public"
-      />
-
-  <!-- IFigure, this is for inheritence by more specific types  -->
-
-  <subscriber
-      handler=".figure.createRelationIndex"
-      />
-
-  <!-- include figure type configs here -->
-  <include file="example.zcml"/>
-
+  <subscriber handler=".indexing.createExampleIndicesSubscriber"/>
 
   <include package=".browser"/>
 

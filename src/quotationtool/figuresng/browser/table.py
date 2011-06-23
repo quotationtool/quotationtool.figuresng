@@ -11,37 +11,27 @@ from zope.intid.interfaces import IIntIds
 from zope.proxy import removeAllProxies
 import urllib
 
-from quotationtool.bibliography.interfaces import IBibliographyCatalog, IEntry
 from quotationtool.skin.interfaces import ITabbedContentLayout
 from quotationtool.renderer.interfaces import IHTMLRenderer
+from quotationtool.quotation.interfaces import IReference
+from quotationtool.quotation.browser.table import IAuthorTitleYearTable, IQuotationsInReferenceTable, ISortingColumn
 
-from quotationtool.figuresng.interfaces import _
-from quotationtool.figuresng.iexample import IExample
+from quotationtool.figuresng.interfaces import _, IExample
 
 
 class IExamplesTable(ITable):
     """ A table for example objects."""
 
 
-class IAuthorTitleExamplesTable(ITable):
-    """ A table for example objects with columns for author and
-    title."""
-
-
-class IExamplesInReferenceTable(ITable):
-    """ A table of example objects all taken from the same reference
-    (or somehow else it is clear who the author, title etc. is). """
-
-
-class ISortingColumn(IColumn):
-    """ A column that offers sorting."""
-
+class IQuotationExamplesTable(ITable):
+    """ A table with a quotation column."""
+ 
 
 class ExampleContainerTable(table.Table, BrowserPagelet):
     """ A table with all examples in the example container."""
 
-    zope.interface.implements(IExamplesTable, 
-                              IAuthorTitleExamplesTable)
+    zope.interface.implements(IExamplesTable,
+                              IAuthorTitleYearTable)
 
     render = BrowserPagelet.render
 
@@ -58,7 +48,8 @@ class ExamplesInReferenceTable(table.SequenceTable, BrowserPagelet):
     """ A table with all examples from a certain reference."""
 
     zope.interface.implements(IExamplesTable,
-                              IExamplesInReferenceTable, 
+                              IQuotationExamplesTable,
+                              IQuotationsInReferenceTable, 
                               ITabbedContentLayout)
 
     render = BrowserPagelet.render
@@ -71,13 +62,16 @@ class ExamplesInReferenceTable(table.SequenceTable, BrowserPagelet):
     cssClassEven = u'even'
     cssClassOdd = u'odd'
 
+    batchSize = 10
+    startBatchingAt = 10
+
 
 class ExamplesInReference(value.ValuesMixin):
     """ Values (examples) from a reference."""
 
-    zope.component.adapts(IEntry,
+    zope.component.adapts(IReference,
                           IBrowserRequest, 
-                          IExamplesInReferenceTable)
+                          ExamplesInReferenceTable)
 
     @property
     def values(self):
@@ -90,7 +84,7 @@ class ExamplesInReference(value.ValuesMixin):
             zc.relation.interfaces.ICatalog,
             context=self.context)
         examples = cat.findRelationTokens(
-            cat.tokenizeQuery({'ifigure-reference': self.context}))
+            cat.tokenizeQuery({'iquotation-reference': self.context}))
         return ResultSet(examples, intids)
 
 
@@ -106,9 +100,6 @@ class QuidColumn(column.LinkColumn):
         return getattr(item, 'quid', u"")
 
     def getSortKey(self, item):
-        if item.__name__ == '359':
-            pass
-            #raise Exception(item.quid)
         return getattr(item, 'quid', u"")
 
 
@@ -138,92 +129,6 @@ class MarkerColumn(column.GetAttrColumn):
         return getattr(item, 'marker', u"")
 
 
-class YearColumn(column.Column):
-    """ The year attribute of a bibliographic entry."""
-
-    zope.interface.implements(ISortingColumn)
-
-    header = IBibliographyCatalog['year'].title
-    weight = 105
-
-    def renderCell(self, item):
-        view = zope.component.getMultiAdapter(
-            (item.reference, self.request),
-            name='year')
-        return view()
-
-    def getSortKey(self, item):
-        return IBibliographyCatalog(item).year
-
-
-class AuthorColumn(column.Column):
-    """ The year attribute of a bibliographic entry."""
-
-    zope.interface.implements(ISortingColumn)
-
-    header = IBibliographyCatalog['author'].title
-    weight = 110
-
-    def renderCell(self, item):
-        view = zope.component.getMultiAdapter(
-            (item.reference, self.request),
-            name='author')
-        return view()
-
-    def getSortKey(self, item):
-        return IBibliographyCatalog(item).author
-
-
-class TitleColumn(column.Column):
-    """ The year attribute of a bibliographic entry."""
-
-    zope.interface.implements(ISortingColumn)
-
-    header = IBibliographyCatalog['title'].title
-    weight = 120
-
-    def renderCell(self, item):
-        view = zope.component.getMultiAdapter(
-            (item.reference, self.request),
-            name='title')
-        return view()
-
-    def getSortKey(self, item):
-        return IBibliographyCatalog(item).title
-
-
-class PositionColumn(column.GetAttrColumn):
-    """ The position of the example in the entry."""
-
-    #zope.interface.implements(ISortingColumn)
-
-    header = IExample['position'].title
-    weight = 5
-    attrName = 'position'
-
-    def getSortKey(self, item):
-        return getattr(item, 'position', u"")#TODO
-
-
-class QuotationColumn(column.Column):
-    """ The quotation."""
-
-    header = IExample['quotation'].title
-    weight = 210
-
-    def renderCell(self, item):
-        source = zope.component.createObject(
-            item.source_type,
-            item.quotation)
-        renderer = zope.component.getMultiAdapter(
-            (removeAllProxies(source), self.request),
-            IHTMLRenderer, name = u'')
-        return renderer.render(limit=200)
-
-    def getSortKey(self, item):
-        return self.renderCell(item)
-
-
 class FlagsColumn(column.Column):
     """ The flags of a example."""
 
@@ -236,50 +141,3 @@ class FlagsColumn(column.Column):
             IContentProvider, name='flags')
         flags.update()
         return flags.render()
-
-
-class SortingColumnHeader(header.ColumnHeader):
-    """ As SortingColumnHeader from z3c.table, but offers css for
-    headers."""
-
-    def render(self):
-        table = self.table
-        prefix = table.prefix
-        colID = self.column.id
-
-        # this may return a string 'id-name-idx' if coming from request,
-        # otherwise in Table class it is intialised as a integer string
-        currentSortID = table.getSortOn()
-        try:
-            currentSortID = int(currentSortID)
-        except ValueError:
-            currentSortID = currentSortID.rsplit('-', 1)[-1]
-
-        currentSortOrder = table.getSortOrder()
-
-        sortID = colID.rsplit('-', 1)[-1]
-
-        sortOrder = table.sortOrder
-        if int(sortID) == int(currentSortID):
-            # ordering the same column so we want to reverse the order
-            if currentSortOrder in table.reverseSortOrderNames:
-                sortOrder = 'ascending'
-            elif currentSortOrder == 'ascending':
-                sortOrder = table.reverseSortOrderNames[0]
-
-        args = self.getQueryStringArgs()
-        args.update({'%s-sortOn' % prefix: colID,
-                     '%s-sortOrder' % prefix: sortOrder})
-        queryString = '?%s' % (urllib.urlencode(args))
-
-        #CSS
-        if table.getSortOn() == self.column.id:
-            cssClass = u' class="active %s"' % sortOrder
-        else:
-            cssClass = u""
-
-        return '<a href="%s" title="%s"%s>%s</a>' % (
-            queryString,
-            zope.i18n.translate(_('Sort'), context=self.request),
-            cssClass,
-            zope.i18n.translate(self.column.header, context=self.request))

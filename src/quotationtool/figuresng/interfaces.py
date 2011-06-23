@@ -1,114 +1,95 @@
-from zope.interface import Interface, Attribute
+import zope.interface
 from zope.container.interfaces import IContained, IContainer
 from zope.container.constraints import containers, contains
-from zope.schema import Text, TextLine, List, Int, Choice, Object
+from zope.schema import TextLine
+import re
 from zope.i18nmessageid import MessageFactory
 
-from quotationtool.relation.schema import Relation
-from quotationtool.bibliography.interfaces import IEntry
-
+from quotationtool.quotation.interfaces import IQuotation
+from quotationtool.quotation.interfaces import IQuotationContainer
 
 _ = MessageFactory('quotationtool')
 
-
-class IFigure(Interface):
-    """A base interface for more specific figure objects.
-
-        >>> from quotationtool.figuresng.interfaces import IFigure
-        >>> import zope.interface
-        >>> IFigure.names()
-        ['reference', 'source_type', 'length', 'position', 'quotation']
-
-        >>> import zope.schema
-        >>> zope.schema.getFields(IFigure).keys()
-        ['source_type', 'length', 'position', 'reference', 'quotation']
-        
-
-        >>> bad = object()
-        >>> IFigure['reference'].validate(bad)
-        Traceback (most recent call last):
-        ...
-        RelationPreconditionError
-
-        >>> from quotationtool.bibliography.interfaces import IEntry
-        >>> class Book(object):
-        ...     pass
-        >>> zope.interface.classImplements(Book, IEntry)
-
-        >>> somebook = Book()
-        >>> IFigure['reference'].validate(somebook)
+quid_html_tag = re.compile('<span class=(\"|\')quotationtool-example-quid(\"|\')>.*</span>')
+proquo_html_tag = re.compile('<span class=(\"|\')quotationtool-example-proquo(\"|\')>.*</span>')
 
 
-        >>> IFigure['quotation'].validate(u"She feels like a shark, slimy and abrasive.")
-        >>> IFigure['position'].validate(u"42")
-        >>> IFigure['source_type'].validate('plaintext')
-        >>> IFigure['source_type'].validate(IFigure['source_type'].default)
-    """
+class IExampleContainer(IQuotationContainer):
+    """The schema part of an example container interface."""
 
-    reference = Relation(
-        title = _('ifigure-reference-title',
-                  u"Cited from"),
-        description = _('ifigure-reference-desc',
-                        u"The publication (book, article etc.) the text is taken from"),
+
+class IExampleContainerContainer(IContainer):
+    """The container interface part of an example container interface."""
+
+    contains('.IExample')
+
+
+class IExample(IQuotation, IContained):
+    """An example"""
+
+    containers(IExampleContainerContainer)
+
+    quid = TextLine(
+        title = _('iexample-quid-title',
+                  u"Example"),
+        description = _('iexample-quid-desc',
+                        u"What is given as example?"),
         required = True,
-        precondition = [IEntry],
+        default = u'',
+        missing_value = u'',
         )
 
-    quotation = Text(
-        title = _('ifigure-quotation-title',
-                  u"Quotation"),
-        description = _('ifigure-quotation-desc',
-                        u"Passage in the text; without quotationmarks."),
+    pro_quo = TextLine(
+        title = _('iexample-proquo-title',
+                  u"Denotation/Meaning"),
+        description = _('iexample-proquo-desc',
+                        u"What is the example associated with? What does it stand for?"),
         required = True,
+        default = u'',
+        missing_value = u'',
         )
 
-    length = Int(
-        title = _('ifigure-length-title',
-                  u"Lenght"),
-        description = _('ifigure-length-desc',
-                        u"Length in bytes of the quotation attribute. Calculated automatically when quotation is set."),
-        required = True,
-        )
-
-    source_type = Choice(
-        title = _('ifigure-source-type-title', u"Text Format"),
-        description = _('ifigure-source-type-desc',
-                        u"Choose text format"),
-        required = True,
-        default = 'plaintext',
-        vocabulary = 'quotationtool.figuresng.SourceTypes',
-        )
-
-    position = TextLine(
-        title = _('ifigure-position-title',
-                  u"Page"),
-        description = _('ifigure-position-desc',
-                        u"Without ''p.''; date for newspaper articles."),
-        required = True,
-        )
-
-
-class IQuotationSourceFactory(Interface):
-    """A source format for a quotation text (attribute 'quotation' of
-    ISimpleComment objects)."""
-
-
-
-class IFigureIndexCatalog(Interface):
-    """A catalog of indices for searching figures."""
-
-    quotation = TextLine(
-        title = _('ifigureindexcatalog-quotation-title', u"Quotation"),
-        description = _('ifigureindexcatalog-quotation-desc',
-                        u"Search by words from the quotation field."),
-        required = True,
-        )
-
-    any = TextLine(
-        title = _('catalog-any-title',
-                  u"Any field / free"),
-        description = _('catalog-any-desc',
-                        u"Free text."),
+    marker = TextLine(
+        title = _('iexample-marker-title',
+                  u"Marker"),
+        description = _('iexample-marker-desc',
+                        u"How is the example indicated? ('e.g.', 'for instance', paranthesis etc.)"),
         required = False,
         default = u'',
+        missing_value = u'',
         )
+
+    @zope.interface.invariant
+    def assertQuidProQuo(example):
+        if not (example.quid or example.pro_quo):
+            raise zope.interface.Invalid(
+                _('neitherquidnorproquo',
+                  u"Either 'Example' or 'Denotation/Meaning' must be given!")
+                ) 
+
+    @zope.interface.invariant
+    def assertTagsInHTMLQuotation(example):
+        if example.source_type != 'html':
+            return
+        has_quid = has_proquo = False
+        if quid_html_tag.search(example.quotation):
+            has_quid = True
+        if proquo_html_tag.search(example.quotation):
+            has_proquo = True
+        if not (has_quid or has_proquo):
+            raise zope.interface.Invalid(
+                _('nether-quid-nor-proquo-tag',
+                  u"Missing tags for 'Example' and for 'Denotation/Meaning' in the quotation"))
+        if not has_quid:
+            raise zope.interface.Invalid(
+                _('no-quid-tag',
+                  u"Missing 'Example' tag in the quotation"))
+        if not has_proquo:
+            raise zope.interface.Invalid(
+                _('no-proquo-tag',
+                  u"Missing 'Denotation/Meaning' tag in the quotation"))
+
+
+#BBB
+class IFigure(IQuotation):
+    pass

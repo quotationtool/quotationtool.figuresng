@@ -6,9 +6,9 @@ from zope.dublincore.interfaces import IWriteZopeDublinCore
 from zope.exceptions.interfaces import UserError
 from zope.container.contained import NameChooser
 
-from iexample import IExampleContainer, IExampleContainerContainer
+from interfaces import IExampleContainer, IExampleContainerContainer
+
 from quotationtool.site.interfaces import INewQuotationtoolSiteEvent
-from i18n import _
 
 
 class ExampleContainer(BTreeContainer):
@@ -20,8 +20,6 @@ class ExampleContainer(BTreeContainer):
     _count = FieldProperty(IExampleContainer['_count'])
 
     def __setitem__(self, key, val):
-        if not key == unicode(self._count+1):
-            raise UserError(_(u"You want to use $KEY as key for the example, but it should be $COUNT!", mapping={'KEY': key, 'COUNT': self._count}))
         super(ExampleContainer, self).__setitem__(key, val)
         self._count += 1
 

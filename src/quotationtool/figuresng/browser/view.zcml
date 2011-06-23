@@ -1,0 +1,38 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quotationtool">
+
+  <view
+      for="..interfaces.IExampleContainer"
+      name="label"
+      factory=".view.ExampleContainerLabelView"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      />
+
+  <view
+      for="..interfaces.IExample"
+      name="label"
+      factory=".view.ExampleLabelView"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      />
+
+  <view
+      for="..interfaces.IExample"
+      name="details"
+      factory=".view.DetailsView"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      />
+
+  <view
+      for="..interfaces.IExample"
+      name="list"
+      factory=".view.ListView"
+      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      />
+
+</configure>

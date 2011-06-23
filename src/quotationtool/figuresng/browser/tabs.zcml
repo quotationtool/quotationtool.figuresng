@@ -6,7 +6,7 @@
 
 
   <!--z3c:contextMenuItem
-      for="..iexample.IExample"
+      for="..interfaces.IExample"
       title="[example-tabs] Example"
       name="example"
       permission="zope.View"
@@ -17,10 +17,10 @@
       /-->
 
   <z3c:contextMenuItem
-      for="..iexample.IExample"
+      for="..interfaces.IExample"
       title="[example-edit-tabs] Edit"
       name="example-edit"
-      permission="quotationtool.figures.EditFigure"
+      permission="quotationtool.quotation.EditQuotation"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       manager="quotationtool.skin.interfaces.IItemTabs"
       viewName="@@edit.html"
@@ -28,10 +28,10 @@
       />
 
   <z3c:contextMenuItem
-      for="quotationtool.bibliography.interfaces.IEntry"
+      for="quotationtool.quotation.interfaces.IReference"
       title="[entry-examples] Examples"
       name="entry-examples"
-      class=".example_tabs.EntryTab"
+      class=".tabs.EntryTab"
       permission="zope.View"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       manager="quotationtool.skin.interfaces.IItemTabs"
@@ -39,20 +39,20 @@
       weight="1010"
       />
   <zope:adapter
-      for="quotationtool.bibliography.interfaces.IEntry
+      for="quotationtool.quotation.interfaces.IReference
            zope.publisher.interfaces.browser.IBrowserRequest
-           .example.AddExampleInReferenceContext
+           .form.AddExampleInReferenceContext
            z3c.menu.ready2go.interfaces.IMenuManager
-           .example_tabs.IEntryTab"
+           .tabs.IEntryTab"
       provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
       factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
       />
   <zope:adapter
-      for="quotationtool.bibliography.interfaces.IEntry
+      for="quotationtool.quotation.interfaces.IReference
            zope.publisher.interfaces.browser.IBrowserRequest
-           .example.ExamplesInReferenceView
+           .table.ExamplesInReferenceTable
            z3c.menu.ready2go.interfaces.IMenuManager
-           .example_tabs.IEntryTab"
+           .tabs.IEntryTab"
       provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
       factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
       />

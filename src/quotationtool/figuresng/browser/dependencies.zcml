@@ -21,6 +21,5 @@
   <include package="z3c.formui"/>
   <include package="z3c.menu.ready2go"/>
   <include package="z3c.table"/>
-  <!--include package="zope.pluggableauth"/-->
 
 </configure>

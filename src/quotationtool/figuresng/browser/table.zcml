@@ -5,8 +5,8 @@
     i18n_domain="quotationtool">
 
   <z3c:pagelet
-      name="examples.html"
-      for="..iexample.IExampleContainer"
+      name="index.html"
+      for="..interfaces.IExampleContainer"
       class=".table.ExampleContainerTable"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       permission="zope.View"
@@ -17,26 +17,17 @@
       template="examples.pt"
       />
 
-  <adapter
-      for="*
-	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   z3c.table.interfaces.ITable
-	   .table.ISortingColumn"
-      provides="z3c.table.interfaces.IColumnHeader"
-      factory=".table.SortingColumnHeader"
-      />
-
   <z3c:pagelet
-      name="examples"
-      for="quotationtool.bibliography.interfaces.IEntry"
+      name="examples.html"
+      for="quotationtool.quotation.interfaces.IReference"
       class=".table.ExamplesInReferenceTable"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       permission="zope.View"
       />
   <z3c:template
-      for=".table.IExamplesInReferenceTable"
+      for=".table.ExamplesInReferenceTable"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      template="examples_in_reference_table.pt"
+      template="examples_in_reference.pt"
       />
   <adapter
       factory=".table.ExamplesInReference"
@@ -68,50 +59,14 @@
       provides="z3c.table.interfaces.IColumn"
       factory=".table.MarkerColumn"
       />
-      
-  <adapter
-      name="year"
-      for="*
-	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExamplesTable"
-      provides="z3c.table.interfaces.IColumn"
-      factory=".table.YearColumn"
-      />
-      
-  <adapter
-      name="author"
-      for="*
-	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExamplesTable"
-      provides="z3c.table.interfaces.IColumn"
-      factory=".table.AuthorColumn"
-      />
-      
-  <adapter
-      name="title"
-      for="*
-	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IAuthorTitleExamplesTable"
-      provides="z3c.table.interfaces.IColumn"
-      factory=".table.TitleColumn"
-      />
-      
-  <adapter
-      name="position"
-      for="*
-	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IExamplesInReferenceTable"
-      provides="z3c.table.interfaces.IColumn"
-      factory=".table.PositionColumn"
-      />
-      
+
   <adapter
       name="quotation"
       for="*
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
-	   .table.IExamplesInReferenceTable"
+	   .table.IQuotationExamplesTable"
       provides="z3c.table.interfaces.IColumn"
-      factory=".table.QuotationColumn"
+      factory="quotationtool.quotation.browser.table.QuotationColumn"
       />
       
   <adapter
@@ -121,8 +76,6 @@
 	   .table.IExamplesTable"
       provides="z3c.table.interfaces.IColumn"
       factory=".table.FlagsColumn"
-      />
-      
-  
+      />  
 
 </configure>

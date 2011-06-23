@@ -10,7 +10,7 @@
       for="*"
       title="[examplecontainer-navigation] Examples"
       name="examplecontainer"
-      class=".example_nav.ExampleContainerMainNavItem"
+      class=".nav.ExampleContainerMainNavItem"
       permission="zope.View"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       manager="quotationtool.skin.interfaces.IMainNav"
@@ -22,28 +22,28 @@
        z3c.menu.ready2go.checker for more info. -->
   <zope:adapter
       factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
-      for="..iexample.IExampleContainer
+      for="..interfaces.IExampleContainer
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
 	   zope.interface.Interface
 	   quotationtool.skin.interfaces.IMainNav
-	   .example_nav.IExampleContainerMainNavItem"
+	   .nav.IExampleContainerMainNavItem"
       provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
       />
   <zope:adapter
       factory="z3c.menu.ready2go.checker.TrueSelectedChecker"
-      for="..iexample.IExample
+      for="..interfaces.IExample
 	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
 	   zope.interface.Interface
 	   quotationtool.skin.interfaces.IMainNav
-	   .example_nav.IExampleContainerMainNavItem"
+	   .nav.IExampleContainerMainNavItem"
       provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
       />
 
 
   <browser:viewletManager
       name="examplecontainersubnav"
-      class=".example_nav.ExampleContainerSubNav"
-      provides=".example_nav.IExampleContainerSubNav"
+      class=".nav.ExampleContainerSubNav"
+      provides=".nav.IExampleContainerSubNav"
       permission="zope.View"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
       />
@@ -54,7 +54,7 @@
       name="examplecontainer-examples"
       permission="zope.View"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      manager=".example_nav.IExampleContainerSubNav"
+      manager=".nav.IExampleContainerSubNav"
       viewName="examples/@@index.html"
       weight="10"
       />      
@@ -65,7 +65,7 @@
       name="examplecontainer-about"
       permission="zope.View"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      manager=".example_nav.IExampleContainerSubNav"
+      manager=".nav.IExampleContainerSubNav"
       viewName="examples/@@about.html"
       weight="110"
       /-->
@@ -76,7 +76,7 @@
       name="examplecontainer-search"
       permission="zope.View"
       layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      manager=".example_nav.IExampleContainerSubNav"
+      manager=".nav.IExampleContainerSubNav"
       viewName="examples/@@search.html"
       weight="120"
       />

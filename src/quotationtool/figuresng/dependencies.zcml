@@ -15,6 +15,7 @@
   <include package="zope.catalog"/>
   <include package="zc.catalog"/>
   
+  <include package="quotationtool.quotation"/>
   <include package="quotationtool.security"/>
   <include package="quotationtool.renderer"/>
   <include package="quotationtool.site"/>

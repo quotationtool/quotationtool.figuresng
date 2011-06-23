@@ -1,11 +1,13 @@
 import zope.interface
 from zope.schema.fieldproperty import FieldProperty
+from zope.component.factory import Factory
 
-from figure import Figure
-from iexample import IExample
+from quotationtool.quotation.quotation import Quotation
+
+from interfaces import IExample
 
 
-class Example(Figure):
+class Example(Quotation):
 
     zope.interface.implements(IExample)
 
@@ -13,6 +15,8 @@ class Example(Figure):
     pro_quo = FieldProperty(IExample['pro_quo'])
     marker = FieldProperty(IExample['marker'])
 
+
+example_factory = Factory(Example)
 
 def cmpExamplesByAttribute(some, other, attr_name):
     if not attr_name in IExample.names():

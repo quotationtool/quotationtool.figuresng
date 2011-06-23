@@ -1,34 +1,15 @@
 <configure
     xmlns='http://namespaces.zope.org/browser'
-    xmlns:zope='http://namespaces.zope.org/zope'
-    xmlns:z3c='http://namespaces.zope.org/z3c'
-    xmlns:i18n='http://namespaces.zope.org/i18n'
     i18n_domain="quotationtool">
 
   <include file="dependencies.zcml"/>
 
-  <zope:view
-      for="quotationtool.bibliography.interfaces.IEntry"
-      name="year"
-      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      permission="zope.View"
-      factory=".reference.YearView"
-      />
-  <zope:view
-      for="quotationtool.bibliography.interfaces.IEntry"
-      name="author"
-      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      permission="zope.View"
-      factory=".reference.AuthorView"
-      />
-  <zope:view
-      for="quotationtool.bibliography.interfaces.IEntry"
-      name="title"
-      type="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      permission="zope.View"
-      factory=".reference.TitleView"
-      />
-
-  <include file="example.zcml"/>
+  <include file="view.zcml"/>
+  <include file="form.zcml"/>
+  <include file="table.zcml"/>
+  <include package="quotationtool.quotation.browser" file="table.zcml"/>
+  <include file="flags.zcml"/>
+  <include file="nav.zcml"/>
+  <include file="tabs.zcml"/>
 
 </configure>

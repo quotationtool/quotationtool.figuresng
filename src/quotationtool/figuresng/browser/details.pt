@@ -59,12 +59,30 @@
 	    >...</a>
       </td>
     </tr>
+    <tr tal:condition="context/volume|nothing">
+      <td class="schema-col" 
+          tal:define="schema modules/quotationtool/quotation/interfaces/IQuotation/volume">
+        <metal:block use-macro="template/macros/schema_info">
+          Volume
+        </metal:block>
+      </td>
+      <td tal:content="context/volume | nothing">...</td>
+    </tr>
     <tr>
       <td class="schema-col" 
-	  tal:define="schema modules/quotationtool/figuresng/iexample/IExample/position">
-	<metal:block use-macro="template/macros/schema_info">
-	  Page
-	</metal:block>
+          tal:define="schema modules/quotationtool/quotation/interfaces/IQuotation/page">
+        <metal:block use-macro="template/macros/schema_info">
+          Page
+        </metal:block>
+      </td>
+      <td tal:content="context/page | nothing">...</td>
+    </tr>
+    <tr tal:condition="context/position|nothing">
+      <td class="schema-col" 
+          tal:define="schema modules/quotationtool/quotation/interfaces/IQuotation/position">
+        <metal:block use-macro="template/macros/schema_info">
+          Position
+        </metal:block>
       </td>
       <td tal:content="context/position | nothing">...</td>
     </tr>
