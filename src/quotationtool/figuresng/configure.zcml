@@ -77,12 +77,33 @@
       factory=".indexing.AnyValueIndexer"
       name="any-fulltext"
       />
-
+  <adapter
+      for=".interfaces.IExample"
+      provides="z3c.indexer.interfaces.IValueIndexer"
+      factory=".indexing.TypeValueIndexer"
+      name="type-field"
+      />
   <adapter
       for=".interfaces.IExample"
       provides="z3c.indexer.interfaces.IMultiIndexer"
       factory=".indexing.ExampleIndexer"
       name="ExampleIndexer"
+      />
+
+  <adapter
+      for=".searcher.IExampleSearchFilter"
+      factory=".searcher.quid_fulltext_factory"
+      name="quid-fulltext"
+      />
+  <adapter
+      for=".searcher.IExampleSearchFilter"
+      factory=".searcher.proquo_fulltext_factory"
+      name="proquo-fulltext"
+      />
+  <adapter
+      for=".searcher.IExampleSearchFilter"
+      factory=".searcher.marker_fulltext_factory"
+      name="marker-fulltext"
       />
   
   <subscriber handler=".indexing.createExampleIndicesSubscriber"/>

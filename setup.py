@@ -64,6 +64,8 @@ setup(
         'zope.app.schema',
         'zope.app.appsetup',
         'zope.processlifetime',
+        'z3c.indexer',
+        'z3c.searcher',
 
         'quotationtool.quotation',
         'quotationtool.site',
@@ -87,7 +89,6 @@ setup(
         'z3c.menu.ready2go',
         'z3c.table',
         'zope.contentprovider',
-        'z3c.indexer',
 
         'zope.app.pagetemplate',
         'zope.viewlet',

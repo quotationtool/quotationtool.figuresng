@@ -10,13 +10,15 @@ import zc.relation
 from zope.intid.interfaces import IIntIds
 from zope.proxy import removeAllProxies
 import urllib
+from z3c.searcher.interfaces import ISearchSession
 
 from quotationtool.skin.interfaces import ITabbedContentLayout
 from quotationtool.renderer.interfaces import IHTMLRenderer
 from quotationtool.quotation.interfaces import IReference
 from quotationtool.quotation.browser.table import IAuthorTitleYearTable, IQuotationsInReferenceTable, ISortingColumn
+from quotationtool.search.interfaces import ISearchResultPage
 
-from quotationtool.figuresng.interfaces import _, IExample
+from quotationtool.figuresng.interfaces import _, IExample, IExampleContainer
 
 
 class IExamplesTable(ITable):
@@ -87,6 +89,31 @@ class ExamplesInReference(value.ValuesMixin):
             cat.tokenizeQuery({'iquotation-reference': self.context}))
         return ResultSet(examples, intids)
 
+
+class SearchResultTable(ExampleContainerTable):
+    """ A table that displays the result of a search for examples."""
+
+    zope.interface.implements(ISearchResultPage)
+
+
+class ResultingExamples(value.ValuesMixin):
+
+    zope.component.adapts(IExampleContainer,
+                          IBrowserRequest,
+                          SearchResultTable)
+    
+    from quotationtool.figuresng.searcher import ExampleSearchFilter
+    search_filter_factory = ExampleSearchFilter
+
+    session_name = 'last'
+
+    @property
+    def values(self):
+        session = ISearchSession(self.request)
+        search_filter = session.getFilter(self.session_name)
+        query = search_filter.generateQuery()
+        return query.searchResults()
+        
 
 class QuidColumn(column.LinkColumn):
     """ The quid attribute of an example object."""

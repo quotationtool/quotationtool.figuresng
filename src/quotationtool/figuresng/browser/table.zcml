@@ -33,6 +33,22 @@
       factory=".table.ExamplesInReference"
       />
 
+  <z3c:pagelet
+      name="searchResult.html"
+      for="..interfaces.IExampleContainer"
+      class=".table.SearchResultTable"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      />
+  <z3c:template
+      for=".table.SearchResultTable"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      template="searchresult.pt"
+      />
+  <adapter
+      factory=".table.ResultingExamples"
+      />
+  
   <adapter
       name="quid"
       for="*

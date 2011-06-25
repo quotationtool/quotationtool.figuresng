@@ -83,19 +83,26 @@ class AnyValueIndexer(ValueIndexer):
     
     @property
     def value(self):
-        rc = getattr(self.context, 'quid', u"")
-        rc += u" " + getattr(self.context, 'pro_quo', u"")
-        rc += u" " + getattr(self.context, 'marker', u"")
-        rc += u" " + getattr(self.context, 'quotation', u"")
-        rc += u" " + getattr(self.context, 'page', u"")
-        rc += u" " + getattr(self.context, 'volume', u"")
-        rc += u" " + getattr(self.context, 'position', u"")
+        rc = u""
+        for attr in ('quid', 'pro_quo', 'quotation', 'page', 'volume', 'position'):
+            val = getattr(self.context, 'quid', None)
+            if val:
+                rc += val + u" "
         reference_indexer = zope.component.queryAdapter(
             self.context.reference,
             IValueIndexer, name='any-fulltext')
         if reference_indexer is not None:
             rc += u" " + reference_indexer.value
         return rc
+
+
+class TypeValueIndexer(ValueIndexer):
+
+    indexName = 'type-field'
+
+    @property
+    def value(self):
+        return u'quotationtool.figuresng.interfaces.IExample'
 
 
 def createExampleIndices(site):

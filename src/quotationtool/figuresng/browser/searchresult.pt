@@ -1,0 +1,11 @@
+<div i18n:domain="quotationtool">
+
+  <div tal:content="structure provider:searchresultinfo" />
+
+  <div class="batch" tal:content="structure view/renderBatch"/>
+
+  <div tal:replace="structure view/renderTable"/>
+
+  <div class="batch" tal:content="structure view/renderBatch"/>
+
+</div>
