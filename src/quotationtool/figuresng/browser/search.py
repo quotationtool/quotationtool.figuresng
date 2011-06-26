@@ -29,8 +29,6 @@ class ExampleSearchFilterProvider(object):
 
     label = _('examplesearchfilterprovider-label', u"Examples")
 
-    type_query = u'quotationtool.figuresng.interfaces.IExample'
-
     session_name = 'examples'
 
     @property

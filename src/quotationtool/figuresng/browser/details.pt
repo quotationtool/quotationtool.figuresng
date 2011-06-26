@@ -86,5 +86,28 @@
       </td>
       <td tal:content="context/position | nothing">...</td>
     </tr>
+    <tr>
+      <td class="schema-col">
+	<span class="title"
+	    i18n:translate="">
+	  Markup caption
+	</span>
+      </td>
+      <td>
+	<metal:macro define-macro="example-markup-caption">
+	<span class="quotationtool-example-quid"
+	    tal:content="modules/quotationtool/figuresng/interfaces/IExample/quid/title">
+	  Example
+	</span>,
+	<span class="quotationtool-example-proquo"
+	    tal:content="modules/quotationtool/figuresng/interfaces/IExample/pro_quo/title">
+	  Denotation / Meaning
+	</span>,
+	<span class="quotationtool-example-marker"
+	    tal:content="modules/quotationtool/figuresng/interfaces/IExample/marker/title">
+	  Marker
+	</span>
+	</metal:macro>
+      </td>
   </table>
 </div>

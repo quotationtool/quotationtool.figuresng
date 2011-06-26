@@ -75,6 +75,7 @@ setup(
         'quotationtool.skin',
         'quotationtool.tinymce',
         'quotationtool.editorial',
+        'quotationtool.search',
 
         'z3c.template',
         'z3c.macro',
@@ -93,6 +94,9 @@ setup(
         'zope.app.pagetemplate',
         'zope.viewlet',
         'zope.app.component',
+
+        # BBB required by packages but not configured there
+        'zope.app.generations', # required by z3c.searcher
         ],
     extras_require = dict(
         test = [
