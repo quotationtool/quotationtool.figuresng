@@ -105,7 +105,7 @@ class ResultingExamples(value.ValuesMixin):
     from quotationtool.figuresng.searcher import ExampleSearchFilter
     search_filter_factory = ExampleSearchFilter
 
-    session_name = 'last'
+    session_name = 'examples'
 
     @property
     def values(self):

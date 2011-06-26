@@ -4,6 +4,7 @@ from z3c.searcher.criterium import TextCriterium, SearchCriterium
 from z3c.searcher.criterium import factory
 from z3c.searcher.filter import EmptyTerm, SearchFilter
 
+from quotationtool.search.interfaces import ITypeExtent
 from quotationtool.quotation.searcher import IQuotationSearchFilter
 
 from quotationtool.figuresng.interfaces import _
@@ -17,10 +18,18 @@ class ExampleSearchFilter(SearchFilter):
     """ Example search filter."""
 
     zope.interface.implements(IQuotationSearchFilter,
-                              IExampleSearchFilter)
+                              IExampleSearchFilter,
+                              ITypeExtent)
 
     def getDefaultQuery(self):
         return EmptyTerm()
+
+    def delimit(self):
+        """ See ITypeExtent"""
+        crit = self.createCriterium('type-field')
+        crit.value = u'quotationtool.figuresng.interfaces.IExample'
+        crit.connectorName='AND'
+        self.addCriterium(crit)
 
 
 class QuidTextCriterium(TextCriterium):

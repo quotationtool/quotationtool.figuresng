@@ -31,6 +31,8 @@ class ExampleSearchFilterProvider(object):
 
     type_query = u'quotationtool.figuresng.interfaces.IExample'
 
+    session_name = 'examples'
+
     @property
     def resultURL(self):
         examplecontainer = zope.component.getUtility(

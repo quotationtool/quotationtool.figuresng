@@ -38,6 +38,15 @@
 	   .nav.IExampleContainerMainNavItem"
       provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
       />
+  <zope:adapter
+      for="..interfaces.IExampleContainer
+	   quotationtool.skin.interfaces.IQuotationtoolBrowserLayer
+           quotationtool.search.interfaces.ISearchResultPage
+	   quotationtool.skin.interfaces.IMainNav
+	   .nav.IExampleContainerMainNavItem"
+      provides="z3c.menu.ready2go.interfaces.ISelectedChecker"
+      factory="z3c.menu.ready2go.checker.FalseSelectedChecker"
+      />
 
 
   <browser:viewletManager
@@ -69,17 +78,6 @@
       viewName="examples/@@about.html"
       weight="110"
       /-->
-
-  <z3c:siteMenuItem
-      for="*"
-      title="[examplecontainer-search-navigation] Search"
-      name="examplecontainer-search"
-      permission="zope.View"
-      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
-      manager=".nav.IExampleContainerSubNav"
-      viewName="examples/@@search.html"
-      weight="120"
-      />
 
   
 </configure>
