@@ -90,18 +90,23 @@
       name="ExampleIndexer"
       />
 
+  <utility
+      component=".searcher.example_search_filter_factory"
+      name="quotationtool.figuresng.searcher.ExampleSearchFilter"
+      />
+
   <adapter
-      for=".searcher.IExampleSearchFilter"
+      for=".interfaces.IExampleSearchFilter"
       factory=".searcher.quid_fulltext_factory"
       name="quid-fulltext"
       />
   <adapter
-      for=".searcher.IExampleSearchFilter"
+      for=".interfaces.IExampleSearchFilter"
       factory=".searcher.proquo_fulltext_factory"
       name="proquo-fulltext"
       />
   <adapter
-      for=".searcher.IExampleSearchFilter"
+      for=".interfaces.IExampleSearchFilter"
       factory=".searcher.marker_fulltext_factory"
       name="marker-fulltext"
       />

@@ -2,42 +2,14 @@ import zope.interface
 import zope.component
 import zope.schema
 from zope.traversing.browser.absoluteurl import absoluteURL
-from zope.publisher.interfaces.browser import IBrowserRequest
 from z3c.form.form import Form as ViewletForm
 from z3c.form import field, button
 from zope.viewlet.interfaces import IViewlet
 from zope.app.component.hooks import getSite
 from zope.traversing.api import traverse
 
-from quotationtool.search.interfaces import ISearchFilterProvider
-
 from quotationtool.figuresng.interfaces import _, IExampleContainer
-from quotationtool.figuresng.searcher import ExampleSearchFilter
 
-
-class ExampleSearchFilterProvider(object):
-    """ Provide search for with search filter and information about it."""
-    
-    zope.interface.implements(ISearchFilterProvider)
-
-    def __init__(self, context, request, view):
-        self.context = context
-        self.request = request
-        self.view = view
-
-    filterFactory = ExampleSearchFilter
-
-    label = _('examplesearchfilterprovider-label', u"Examples")
-
-    session_name = 'examples'
-
-    @property
-    def resultURL(self):
-        examplecontainer = zope.component.getUtility(
-            IExampleContainer,
-            context=self.context)
-        return absoluteURL(examplecontainer, self.request) + u"/@@searchResult.html"
-        
 
 example_id = zope.schema.TextLine(
     title = u"ID",

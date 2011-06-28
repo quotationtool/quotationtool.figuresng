@@ -4,13 +4,5 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="quotationtool">
 
-  <zope:adapter
-      factory=".search.ExampleSearchFilterProvider"
-      name="quotationtool.figuresng.interfaces.IExample"
-      for="*
-	   zope.publisher.interfaces.browser.IBrowserRequest
-	   *"
-      provides="quotationtool.search.interfaces.ISearchFilterProvider"
-      />
 
 </configure>

@@ -1,25 +1,27 @@
 import zope.interface
-from z3c.searcher.interfaces import ISearchFilter
+import zope.component
+from z3c.searcher.interfaces import ISearchFilter, CONNECTOR_OR, CONNECTOR_AND
 from z3c.searcher.criterium import TextCriterium, SearchCriterium
 from z3c.searcher.criterium import factory
 from z3c.searcher.filter import EmptyTerm, SearchFilter
+from zope.traversing.browser import absoluteURL
 
-from quotationtool.search.interfaces import ITypeExtent
-from quotationtool.quotation.searcher import IQuotationSearchFilter
+from quotationtool.search.interfaces import IQuotationtoolSearchFilter
+from quotationtool.search.interfaces import ITypeExtent, ICriteriaChainSpecifier, IResultSpecifier
+from quotationtool.quotation.interfaces import IQuotationSearchFilter
 
-from quotationtool.figuresng.interfaces import _
-
-
-class IExampleSearchFilter(ISearchFilter):
-    """ Search filter for example objects."""
+from quotationtool.figuresng.interfaces import _, IExampleSearchFilter, IExampleContainer
 
 
 class ExampleSearchFilter(SearchFilter):
     """ Example search filter."""
 
-    zope.interface.implements(IQuotationSearchFilter,
+    zope.interface.implements(IQuotationtoolSearchFilter,
+                              IQuotationSearchFilter,
                               IExampleSearchFilter,
-                              ITypeExtent)
+                              ITypeExtent,
+                              ICriteriaChainSpecifier,
+                              IResultSpecifier)
 
     def getDefaultQuery(self):
         return EmptyTerm()
@@ -28,8 +30,27 @@ class ExampleSearchFilter(SearchFilter):
         """ See ITypeExtent"""
         crit = self.createCriterium('type-field')
         crit.value = u'quotationtool.figuresng.interfaces.IExample'
-        crit.connectorName='AND'
+        crit.connectorName = CONNECTOR_AND
         self.addCriterium(crit)
+
+    first_criterium_connector_name = CONNECTOR_OR
+
+    ignore_empty_criteria = True
+
+    def resultURL(self, context, request):
+        examples = zope.component.getUtility(
+            IExampleContainer,
+            context=context)
+        return absoluteURL(examples, request) + u"/@@searchResult.html"
+
+    session_name = 'examples'
+
+
+example_search_filter_factory = zope.component.factory.Factory(
+    ExampleSearchFilter,
+    _('ExampleSearchFilter-title', u"Examples"),
+    _('ExampleSearchFilter-desc', u"Search for examples.")
+    )
 
 
 class QuidTextCriterium(TextCriterium):

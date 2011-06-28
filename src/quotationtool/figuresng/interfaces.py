@@ -4,6 +4,7 @@ from zope.container.constraints import containers, contains
 from zope.schema import TextLine
 import re
 from zope.i18nmessageid import MessageFactory
+from z3c.searcher.interfaces import ISearchFilter
 
 from quotationtool.quotation.interfaces import IQuotation
 from quotationtool.quotation.interfaces import IQuotationContainer
@@ -88,6 +89,12 @@ class IExample(IQuotation, IContained):
             raise zope.interface.Invalid(
                 _('no-proquo-tag',
                   u"Missing 'Denotation/Meaning' tag in the quotation"))
+
+
+class IExampleSearchFilter(ISearchFilter):
+    """ Search filter for example objects."""
+
+
 
 
 #BBB
