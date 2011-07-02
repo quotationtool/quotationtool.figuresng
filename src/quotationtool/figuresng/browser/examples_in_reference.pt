@@ -13,9 +13,13 @@
   <div class="batch" tal:content="structure view/renderBatch"/>
 
   <div class="add-content-options">
-    <a href="../addExample.html"
-        tal:attributes="href string:${context/@@absolute_url}/@@addExample.html"
-        i18n:translate="add-example">Add a new Example</a>
+    <form action="addExample.html"
+	tal:attributes="action string:${context/@@absolute_url}/@@addExample.html">
+      <button
+	  type="submit" class="add-content add-example"
+	  name="addExample" value="Add a new Example"
+	  i18n:translate="add-example">Add a new Example</button>
+    </form>
   </div>
 
 </div>

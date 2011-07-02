@@ -2,6 +2,9 @@
 
   <h1 i18n:translate="examplecontainer-container-label">Examples in the Database</h1>
 
+  <div class="examplecontainer-adds"
+      tal:content="structure provider:examplecontainer-adds"/>
+
   <div class="batch" tal:content="structure view/renderBatch"/>
 
   <div tal:replace="structure view/renderTable"/>

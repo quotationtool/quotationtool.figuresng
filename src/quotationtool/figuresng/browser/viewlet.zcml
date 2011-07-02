@@ -1,0 +1,25 @@
+<configure
+    xmlns:zope="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="quotationtool">
+
+  <browser:viewletManager
+      name="examplecontainer-adds"
+      class=".viewlet.ExampleContainerAdds"
+      provides=".viewlet.IExampleContainerAdds"
+      permission="zope.View"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      />
+
+  <browser:viewlet
+      for="*"
+      name="examplebyid"
+      manager=".viewlet.IExampleContainerAdds"
+      class=".viewlet.ExampleByIdForm"
+      layer="quotationtool.skin.interfaces.IQuotationtoolBrowserLayer"
+      permission="zope.View"
+      weight="100"
+      />
+
+</configure>
