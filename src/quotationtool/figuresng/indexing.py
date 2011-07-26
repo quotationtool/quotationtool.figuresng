@@ -85,14 +85,12 @@ class AnyValueIndexer(ValueIndexer):
     def value(self):
         rc = u""
         for attr in ('quid', 'pro_quo', 'quotation', 'page', 'volume', 'position'):
-            val = getattr(self.context, 'quid', None)
-            if val:
-                rc += val + u" "
+            rc += getattr(self.context, attr, u"") + u" "
         reference_indexer = zope.component.queryAdapter(
             self.context.reference,
             IValueIndexer, name='any-fulltext')
         if reference_indexer is not None:
-            rc += u" " + reference_indexer.value
+            rc += reference_indexer.value + u" "
         return rc
 
 
