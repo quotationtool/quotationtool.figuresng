@@ -1,11 +1,17 @@
 span.quotationtool-example-quid {
+    background-color:#fff0f0;
+    border: 1px dotted #faa;
     background-image: url('../img/quid.gif');
 }
 span.quotationtool-example-proquo {
+    background-color:#f0fff0;
+    border: 1px dotted #afa;
     background-image: url('../img/proquo.gif');
 }
 
 span.quotationtool-example-marker {
+    background-color:#f0f0ff;
+    border: 1px dotted #aaf;
     background-image: url('../img/marker.gif');
 }
 span.quotationtool-example-quid,
@@ -15,6 +21,4 @@ span.quotationtool-example-marker {
     padding-left: 25px;
     min-height: 20px;
     display: inline-block;
-    background-color:#f0fcf0;
-    border: 1px dotted #ccc;
 }

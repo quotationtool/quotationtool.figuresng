@@ -16,7 +16,7 @@
 	  </span>  
 	</tal:block>
       </td>
-      <td tal:content="context/quid | nothing">...</td>
+      <td class="data-col" tal:content="context/quid | nothing">...</td>
     </tr>
     <tr>
       <td class="schema-col" 
@@ -25,7 +25,7 @@
 	  Denotation / Meaning
 	</metal:block>
       </td>
-      <td tal:content="context/pro_quo | nothing">...</td>
+      <td class="data-col" tal:content="context/pro_quo | nothing">...</td>
     </tr>
     <tr>
       <td class="schema-col" 
@@ -34,7 +34,7 @@
 	  Marker
 	</metal:block>
       </td>
-      <td tal:content="context/marker | nothing">...</td>
+      <td class="data-col" tal:content="context/marker | nothing">...</td>
     </tr>
     <tr>
       <td class="schema-col" 
@@ -43,7 +43,7 @@
 	  Quotation
 	</metal:block>
       </td>
-      <td tal:content="structure view/renderQuotation">...</td>
+      <td class="data-col" tal:content="structure view/renderQuotation">...</td>
     </tr>
     <tr>
       <td class="schema-col" 
@@ -52,7 +52,7 @@
 	  Cited from
 	</metal:block>
       </td>
-      <td>
+      <td class="data-col">
 	<a class="content" href=""
 	    tal:content="structure context/reference/@@citation"
 	    tal:attributes="href string:${context/reference/@@absolute_url}/@@examples.html"
@@ -66,7 +66,7 @@
           Volume
         </metal:block>
       </td>
-      <td tal:content="context/volume | nothing">...</td>
+      <td class="data-col" tal:content="context/volume | nothing">...</td>
     </tr>
     <tr>
       <td class="schema-col" 
@@ -75,7 +75,7 @@
           Page
         </metal:block>
       </td>
-      <td tal:content="context/page | nothing">...</td>
+      <td class="data-col" tal:content="context/page | nothing">...</td>
     </tr>
     <tr tal:condition="context/position|nothing">
       <td class="schema-col" 
@@ -93,7 +93,7 @@
 	  Markup caption
 	</span>
       </td>
-      <td>
+      <td class="data-col">
 	<metal:macro define-macro="example-markup-caption">
 	<span class="quotationtool-example-quid"
 	    tal:content="modules/quotationtool/figuresng/interfaces/IExample/quid/title">
@@ -107,7 +107,117 @@
 	    tal:content="modules/quotationtool/figuresng/interfaces/IExample/marker/title">
 	  Marker
 	</span>
+	<span class="adjust-markup">
+	  <a class="dec-markup" href="javascript:decMarkup()"
+	     title="Less" i18n:attributes="title dec-markup">
+	    <img src="/@@/quotationtool.images/decMarkup.png"
+		tal:attributes="src string:${request/URL/0}/@@/quotationtool.images/decMarkup.png"
+		alt="Less" i18n:attributes="alt dec-markup"/>
+	  </a>
+	  <a class="inc-markup" href="javascript:incMarkup()"
+	     title="More" i18n:attributes="title inc-markup">
+	    <img src="/@@/quotationtool.images/incMarkup.png"
+		tal:attributes="src string:${request/URL/0}/@@/quotationtool.images/incMarkup.png"
+		alt="More" i18n:attributes="alt inc-markup"/>
+	  </a>
+	</span>
 	</metal:macro>
       </td>
+    </tr>
   </table>
 </div>
+<script type="text/javascript">
+/*<![CDATA[*/
+  markup_level = 1;
+  function incMarkup ()
+  {
+    if (markup_level < 2) {markup_level++;}
+    setMarkup();
+  }
+  function decMarkup ()
+  {
+    if (markup_level > 0) {markup_level--;}
+    setMarkup();
+  }
+  function setMarkup (obj)
+  {
+    //alert(markup_level);
+    var elms = document.getElementsByTagName('*');
+    for (i=0; i < elms.length; i++)
+    {
+      classes = elms[i].getAttribute('class');
+      if (classes != null)
+      {
+         classes = classes.split(' ');
+	 for (j in classes)
+	 {
+	   if (classes[j] == 'quotationtool-example-quid' ||
+	       classes[j] == 'quotationtool-example-proquo' ||
+	       classes[j] == 'quotationtool-example-marker')
+	   {
+	     switch (markup_level)
+	     {
+	       case 0:
+	         elms[i].style.border = "0";
+		 elms[i].style.padding = "0";
+		 elms[i].style.backgroundColor = "#fff";
+		 elms[i].style.backgroundImage = "none";
+		 elms[i].style.backgroundRepeat = "no-repeat";
+		 elms[i].style.minHeight = "0";
+		 elms[i].style.display = "inline";
+		 break;
+	       case 1:
+		 elms[i].style.padding = "0 5px";
+		 elms[i].style.backgroundRepeat = "no-repeat";
+		 elms[i].style.minHeight = "0";
+		 elms[i].style.display = "inline";
+		 elms[i].style.backgroundImage = "none";
+		 if (classes[j] == 'quotationtool-example-quid')
+		 {
+		   elms[i].style.border = "1px dotted #faa";
+		   elms[i].style.backgroundColor = "#fff0f0";
+		 }
+		 if (classes[j] == 'quotationtool-example-proquo')
+		 {
+		   elms[i].style.border = "1px dotted #afa";
+		   elms[i].style.backgroundColor = "#f0fff0";
+		 }
+		 if (classes[j] == 'quotationtool-example-marker')
+		 {
+		   elms[i].style.border = "1px dotted #aaf";
+		   elms[i].style.backgroundColor = "#f0f0ff";
+		 }
+	         break;
+	       case 2:
+		 elms[i].style.padding = "0 5px 0 25px";
+		 elms[i].style.backgroundRepeat = "no-repeat";
+		 elms[i].style.minHeight = "20px";
+		 elms[i].style.display = "inline-block";
+		 if (classes[j] == 'quotationtool-example-quid')
+		 {
+		   elms[i].style.border = "1px dotted #faa";
+		   elms[i].style.backgroundColor = "#fff0f0";
+		   elms[i].style.backgroundImage = "url('/@@/quotationtool.images/quid.gif')";
+		 }
+		 if (classes[j] == 'quotationtool-example-proquo')
+		 {
+		   elms[i].style.border = "1px dotted #afa";
+		   elms[i].style.backgroundColor = "#f0fff0";
+		   elms[i].style.backgroundImage = "url('/@@/quotationtool.images/proquo.gif')";
+		 }
+		 if (classes[j] == 'quotationtool-example-marker')
+		 {
+		   elms[i].style.border = "1px dotted #aaf";
+		   elms[i].style.backgroundColor = "#f0f0ff";
+		   elms[i].style.backgroundImage = "url('/@@/quotationtool.images/marker.gif')";
+
+		 }
+	       break;
+	     }
+	   }
+	 }
+      }
+    }
+  }
+/*]]>*/
+</script>
